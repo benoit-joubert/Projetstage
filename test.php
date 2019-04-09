@@ -10,7 +10,7 @@
 <body>
 <div id="menu">
     <ul id="onglets">
-        <li><a href="index.php"> RecommandÃ© </a></li>
+        <li><a href="index.php"> Recommandé </a></li>
         <li class="active"><a href="test.php"> Recherche </a></li>
     </ul>
 </div>
