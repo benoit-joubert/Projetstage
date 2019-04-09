@@ -39,6 +39,6 @@ function createNavbar() {
                 })
                 .html(paramName)));
     }
-    $('body').append(myNavbar);
+    $('body').prepend(myNavbar);
     active_navbar();
 }
