@@ -4,13 +4,13 @@
 <html lang="FR">
 <head>
     <title>Recommandé</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
     <div id="menu">
         <ul id="onglets">
             <li class="active"><a href="index.php">Recommandé</a></li>
-            <li><a href="test.php"> Recherche </a></li>
+            <li><a href="recherche.php"> Recherche </a></li>
         </ul>
     </div>
     <div id="form_donneesreco">
