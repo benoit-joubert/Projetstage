@@ -11,12 +11,6 @@
 function fillFileNumberInputScript(e) {
     let input = String.fromCharCode(e.keyCode);
     if (!/[a-zA-Z0-9]/.test(input)) return false;
-
-    let inputField = $('#file_number_input');
-    inputField.attr({
-        'value' : inputField.val(),
-        'placeholder' : ' '.repeat(inputField.val().length) + '*'.repeat(10 - inputField.val().length)
-    });
 }
 
 function createCompletionForm() {
@@ -26,7 +20,6 @@ function createCompletionForm() {
                                     'type': 'text',
                                     'maxlength' : 10,
                                     'placeholder' : '**********',
-                                    'value' : '',
                                     'onkeypress' : 'return fillFileNumberInputScript(event)',
                                 }),
         'Type'              : $('<select/>')
@@ -84,3 +77,4 @@ function createCompletionForm() {
 
     $('#completion_form').append(myForm);
 }
+
