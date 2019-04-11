@@ -9,6 +9,8 @@
 }) ();
 
 function fillFileNumberInputScript(e, valueOld, currentInput) {
+    let positionLetters = [0, 1, 4, 9];
+    let positionNumbers = [2, 3, 4, 5, 6, 7, 8, 9];
     let currentValue = currentInput.value;
     currentValue = currentValue.replace(/\*/g, '');
 
@@ -22,7 +24,11 @@ function fillFileNumberInputScript(e, valueOld, currentInput) {
     if (!/[a-zA-Z0-9]/.test(e.key) || e.key.length > 1) return false;
 
     if (currentValue.length < 10) {
-        currentValue += e.key.toUpperCase();
+        if ((e.key.match(/[0-9]/) && positionNumbers.includes(currentValue.length))
+            || (e.key.match(/[a-zA-Z]/) && positionLetters.includes(currentValue.length)))
+            currentValue += e.key.toUpperCase();
+        else
+            return false;
         currentValue += '*'.repeat(10 - currentValue.length);
         currentInput.value = currentValue;
         return true;
