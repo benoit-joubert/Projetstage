@@ -1,4 +1,11 @@
-ul {
+/**********************************************************************************************************************\
+|                                                    Navbar CSS                                                        |
+\**********************************************************************************************************************/
+.navbar {
+    margin-bottom: 25px;
+}
+
+.navbar ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -6,11 +13,11 @@ ul {
     background-color: black;
 }
 
-li {
+.navbar li {
     float: left;
 }
 
-li a {
+.navbar li a {
     display: block;
     color: white;
     text-align: center;
@@ -18,10 +25,27 @@ li a {
     text-decoration: none;
 }
 
-li a:hover {
-    background-color: grey;
+.navbar li a:hover {
+    background-color: dimgrey;
 }
 
 .active {
-    background-color: green
+    background-color: darkblue;
+}
+
+/**********************************************************************************************************************\
+|                                                 Completion Form                                                      |
+\**********************************************************************************************************************/
+div #table_container {
+    overflow-x: auto;
+}
+
+#contents input {
+    color: transparent;
+    text-shadow: 0 0 0 black;
+}
+
+#contents input:focus {
+    outline: none !important;
+    border: 2px solid black;
 }

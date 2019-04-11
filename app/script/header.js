@@ -19,12 +19,33 @@ function active_navbar () {
 }
 
 /**
+ * Makes the navbar sticky
+ */
+function sticky_navbar () {
+    let stickyNavTop = $('.navbar').offset().top;
+    let stickyNav = function(){
+        let scrollTop = $(window).scrollTop();
+        if (scrollTop > stickyNavTop) {
+            $('.navbar').addClass('sticky');
+        } else {
+            $('.navbar').removeClass('sticky');
+        }
+    };
+    stickyNav();
+    $(window).scroll(function() {
+        stickyNav();
+    });
+}
+
+/**
  * Allows to create a navbar for each page.
  */
 function createNavbar() {
-    let myNavbar = $('<nav/>')
-        .addClass('navbar')
-        .append($('<ul/>'));
+    let myNavbar =
+        $('<header/>')
+            .append($('<nav/>')
+                .addClass('navbar')
+                .append($('<ul/>')));
     let myParams = {
         'Recommandes'   : 'index.php',
         'Recherche'     : 'recherche.php'
@@ -41,4 +62,5 @@ function createNavbar() {
     }
     $('body').prepend(myNavbar);
     active_navbar();
+    sticky_navbar();
 }
