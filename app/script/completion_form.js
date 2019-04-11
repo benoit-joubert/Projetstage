@@ -8,33 +8,66 @@
     });
 }) ();
 
-function fillFileNumberInputScript(e) {
-    let input = String.fromCharCode(e.keyCode);
-    if (!/[a-zA-Z0-9]/.test(input)) return false;
+function fillFileNumberInputScript(e, valueOld, currentInput) {
+    let currentValue = currentInput.value;
+    currentValue = currentValue.replace(/\*/g, '');
+
+    if (e.keyCode === 8) {
+        currentValue = currentValue.substring(0, currentValue.length-1);
+        currentValue += '*'.repeat(10 - currentValue.length);
+        currentInput.value = currentValue;
+        return true;
+    }
+
+    if (!/[a-zA-Z0-9]/.test(e.key) || e.key.length > 1) return false;
+
+    if (currentValue.length < 10) {
+        currentValue += e.key.toUpperCase();
+        currentValue += '*'.repeat(10 - currentValue.length);
+        currentInput.value = currentValue;
+        return true;
+    }
+    return false;
+}
+
+function preventBackSpace(e) {
+    let evt = e || window.event;
+    if (evt) {
+        let keyCode = evt.charCode || evt.keyCode;
+        if (keyCode === 8) {
+            if (evt.preventDefault) {
+                evt.preventDefault();
+            } else {
+                evt.returnValue = false;
+            }
+        }
+    }
 }
 
 function createCompletionForm() {
     let myFields = {
         'Numero de dossier' : $('<input/>').attr({
-                                    'id' : 'file_number_input',
                                     'type': 'text',
-                                    'maxlength' : 10,
-                                    'placeholder' : '**********',
-                                    'onkeypress' : 'return fillFileNumberInputScript(event)',
+                                    'maxlength' : 10    ,
+                                    'value' : '**********',
+                                    'onKeyUp' : 'return fillFileNumberInputScript(event, this.value, this)',
+                                    'onKeyDown' : 'preventBackSpace(event);',
+                                    'required' : ''
                                 }),
         'Type'              : $('<select/>')
-                                    .append($('<option/>').attr({'value' : 'arrete'}).html('Arrêté'))
-                                    .append($('<option/>').attr({'value' : 'courrier'}).html('Courrier'))
-                                    .append($('<option/>').attr({'value' : 'irrecevable'}).html('Irrecevable'))
-                                    .append($('<option/>').attr({'value' : 'notification'}).html('Notification des délais'))
-                                    .append($('<option/>').attr({'value' : 'pieces'}).html('Pièces Complémentaires'))
-                                    .append($('<option/>').attr({'value' : 'prolongation'}).html('Prolongation de délai'))
-                                    .append($('<option/>').attr({'value' : 'prorogation'}).html('Prorogation'))
-                                    .append($('<option/>').attr({'value' : 'rectificatif'}).html('Rectificatif'))
-                                    .append($('<option/>').attr({'value' : 'rejet'}).html('Rejet'))
-                                    .append($('<option/>').attr({'value' : 'report'}).html('Report de délai'))
-                                    .append($('<option/>').attr({'value' : 'retrait'}).html('Retrait'))
-                                    .append($('<option/>').attr({'value' : 'suspension'}).html('Suspension des délais')),
+                                        .append($('<option/>').attr({'value' : 'arrete'}).html('Arrêté'))
+                                        .append($('<option/>').attr({'value' : 'courrier'}).html('Courrier'))
+                                        .append($('<option/>').attr({'value' : 'irrecevable'}).html('Irrecevable'))
+                                        .append($('<option/>').attr({'value' : 'notification'}).html('Notification des délais'))
+                                        .append($('<option/>').attr({'value' : 'pieces'}).html('Pièces Complémentaires'))
+                                        .append($('<option/>').attr({'value' : 'prolongation'}).html('Prolongation de délai'))
+                                        .append($('<option/>').attr({'value' : 'prorogation'}).html('Prorogation'))
+                                        .append($('<option/>').attr({'value' : 'rectificatif'}).html('Rectificatif'))
+                                        .append($('<option/>').attr({'value' : 'rejet'}).html('Rejet'))
+                                        .append($('<option/>').attr({'value' : 'report'}).html('Report de délai'))
+                                        .append($('<option/>').attr({'value' : 'retrait'}).html('Retrait'))
+                                        .append($('<option/>').attr({'value' : 'suspension'}).html('Suspension des délais')
+                                    ),
         'Expediteur'        : $('<input/>').attr({'type': 'text'}),
         'Imprimer'          : $('<select/>')
                                     .append($('<option/>').attr({'value' : 'oui'}).html('Oui'))

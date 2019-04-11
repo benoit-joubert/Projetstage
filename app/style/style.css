@@ -40,6 +40,12 @@ div #table_container {
     overflow-x: auto;
 }
 
-#file_number_input {
-    text-transform: uppercase;
+#contents input {
+    color: transparent;
+    text-shadow: 0 0 0 black;
+}
+
+#contents input:focus {
+    outline: none !important;
+    border: 2px solid black;
 }
