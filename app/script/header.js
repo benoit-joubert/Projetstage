@@ -1,12 +1,4 @@
-/**
- * Main function.
- */
-(function () {
-    "use strict";
-    $(document).ready(function () {
-        createNavbar();
-    });
-}) ();
+
 
 /**
  * Handle which page is active.
