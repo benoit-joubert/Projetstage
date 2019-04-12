@@ -1,6 +1,9 @@
-<html lang="FR">
+<html lang="fr-FR">
 <head>
-    <title>Recherche</title>
+    <title>App. Recommandés</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Application de gestion des recommandés" />
+    <meta name="keywords" content="dnsii, mairie, urbanisme, aix-en-provence, recommandés" />
 
     <link rel="stylesheet" href="style/style.css">
 
