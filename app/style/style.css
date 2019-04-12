@@ -36,20 +36,19 @@
 /**********************************************************************************************************************\
 |                                                 Completion Form                                                      |
 \**********************************************************************************************************************/
-#completion_form input {
+#registered_form input {
     color: transparent;
     text-shadow: 0 0 0 black;
-    height: 20px;
     width: 40px;
     text-align: center;
 }
 
-#completion_form input:focus {
+#registered_form input:focus {
     outline: none !important;
     border: 2px solid black;
 }
 
-#completion_form select {
+#registered_form input, select, button {
     height: 20px;
 }
 
