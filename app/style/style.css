@@ -36,16 +36,30 @@
 /**********************************************************************************************************************\
 |                                                 Completion Form                                                      |
 \**********************************************************************************************************************/
-div #table_container {
-    overflow-x: auto;
-}
-
-#contents input {
+#registered_form input {
     color: transparent;
     text-shadow: 0 0 0 black;
+    width: 40px;
+    text-align: center;
 }
 
-#contents input:focus {
+#registered_form input:focus {
     outline: none !important;
     border: 2px solid black;
+}
+
+#registered_form input, select, button {
+    height: 20px;
+}
+
+input#file_fifth_char, input#file_status {
+    width: 15px;
+}
+
+input#file_id {
+    letter-spacing: 2px;
+}
+
+input#file_date {
+    width: auto;
 }
