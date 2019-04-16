@@ -8,6 +8,8 @@
     $(document).ready(function () {
         newNavbar();
         newCompletionForm();
+        newSearchFields();
+        newRegisteredList();
     });
 }) ();
 
@@ -23,11 +25,18 @@ function isJSON(obj) {
 
 function convertToId(string) {
 
+    console.log(string)
     string = string.replace(/ /g, '_');
     string = string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     string = string.toLowerCase();
     return string;
 }
+
+Date.prototype.toDateInputValue = (function() {
+    let local = new Date(this);
+    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+    return local.toJSON().slice(0,10);
+});
 
 /***********************************************************************************************************************
  *                                          Navbar - Main Function                                                     *
@@ -82,7 +91,6 @@ function createNavbar() {
                 .append($('<ul/>')));
     let myParams = {
         'Recommandes'   : 'index.php',
-        'Recherche'     : 'recherche.php'
     };
 
     for (let paramName in myParams) {
@@ -119,12 +127,13 @@ function fillSelectScript(currentSelect, datalist) {
         return false;
 
     jQuery.each(datalist, function () {
+
         $(currentSelect)
             .append($('<option/>')
                 .attr({
-                    'value' : convertToId(this)
+                    'value' : (this[Object.keys(this)] != null ? convertToId(this[Object.keys(this)]) : this)
                 })
-                .html(this)
+                .html((this[Object.keys(this)] != null ? this[Object.keys(this)] : this))
             )
     });
 
@@ -144,11 +153,9 @@ function returnYears() {
 
 function fillAllSelects() {
 
-    fillSelectScript($('#file_type'), ['PC', 'DT', 'CU', 'PD', 'CC', 'DI', 'LT']);
+    fillSelectScript($('#file_type'), fileTypeList);
     fillSelectScript($('#file_year'), returnYears());
-    fillSelectScript($('#file_remarks'), ['Arrêté', 'Courrier', 'Irrecevable', 'Notification des délais',
-        'Pièces complémentaires', 'Prolongation de délai', 'Prorogation', 'Rectificatif', 'Rejet', 'Report de délai',
-        'Retrait', 'Suspension des délais'])
+    fillSelectScript($('#file_remarks'), remarkList);
 }
 
 /***********************************************************************************************************************
@@ -238,7 +245,7 @@ function createCompletionForm() {
             $('<select/>').attr({'id' : 'file_remarks'}),
 
         'Date' :
-            $('<input/>').attr({'id' : 'file_date', 'type': 'date'}),
+            $('<input/>').attr({'id' : 'file_date', 'type' : 'date', 'required' : ''}).val(new Date().toDateInputValue()),
         '' :
             $('<button/>').attr({'type' : 'submit'}).html('Ajouter')
     };
@@ -261,23 +268,6 @@ function createCompletionForm() {
                 )
             );
 
-    let myList =
-        $('<fieldset/>')
-            .append($('<legend/>')
-                .html('Liste des recommandés')
-            )
-            .append($('<table/>')
-                .append($('<tr/>')
-                    .attr({
-                        'id' : 'labels'
-                    })
-                    .append($('<td/>').html('Type'))
-                    .append($('<td/>').html('Description'))
-                    .append($('<td/>').html('Demandeur'))
-                    .append($('<td/>').html('Adresse'))
-                )
-            );
-
     for (let fieldName in myFields) {
         myForm.find('#labels')
             .append($('<th/>')
@@ -291,6 +281,159 @@ function createCompletionForm() {
 
     $('#registered_form')
         .append(myForm);
+}
+
+/***********************************************************************************************************************
+ *                                            Search Fields - Main Function                                            *
+ **********************************************************************************************************************/
+
+function newSearchFields() {
+
+    createSearchFields();
+    fillAllSearchSelects();
+    initializeAllSearchInputs();
+}
+
+/***********************************************************************************************************************
+ *                                    Search Fields - Select Management Functions                                      *
+ **********************************************************************************************************************/
+
+function fillAllSearchSelects() {
+
+    fillSelectScript($('#search_file_type'), fileTypeList);
+    fillSelectScript($('#search_file_year'), returnYears());
+    fillSelectScript($('#search_file_remarks'), remarkList);
+}
+
+/***********************************************************************************************************************
+ *                                      Search Fields - Input Management Functions                                     *
+ **********************************************************************************************************************/
+
+function initializeAllSearchInputs() {
+
+    initializeInputScript($('#search_file_fifth_char'), 1, 'J',[0],[0]);
+    initializeInputScript($('#search_file_id'), 4, '****',[],[0, 1, 2, 3]);
+    initializeInputScript($('#search_file_status'), 1, 'I',[0],[0]);
+}
+
+/***********************************************************************************************************************
+ *                                           Search fields - Initialization                                            *
+ **********************************************************************************************************************/
+
+function createSearchFields() {
+
+    let myFields = {
+        'Numero de dossier' :
+            $('<div/>').attr({'id' : 'search_file_number'})
+                .append($('<select/>').attr({'id' : 'search_file_type'}))
+                .append($('<select/>').attr({'id' : 'search_file_year'}))
+                .append($('<input/>').attr({'id' : 'search_file_fifth_char'}))
+                .append($('<input/>').attr({'id' : 'search_file_id'}))
+                .append($('<input/>').attr({'id' : 'search_file_status'})),
+
+        'Date' :
+            $('<input/>').attr({'id' : 'search_file_date', 'type' : 'date', 'required' : ''}).val(new Date().toDateInputValue()),
+        '' :
+            $('<button/>').attr({'type' : 'submit'}).html('Rechercher')
+    };
+
+    let myForm =
+        $('<fieldset/>')
+            .append($('<legend/>')
+                .html('Recherche')
+            )
+            .append($('<table/>')
+                .append($('<tr/>')
+                    .attr({
+                        'id' : 'search_labels'
+                    })
+                )
+                .append($('<tr/>')
+                    .attr({
+                        'id' : 'search_contents'
+                    })
+                )
+            );
+
+    for (let fieldName in myFields) {
+        myForm.find('#search_labels')
+            .append($('<th/>')
+                .html(fieldName)
+            );
+        myForm.find('#search_contents')
+            .append($('<td/>')
+                .append(myFields[fieldName])
+            );
+    }
+
+    $('#search_fields')
+        .append(myForm);
+}
+
+/***********************************************************************************************************************
+ *                                          Registered List - Main Function                                            *
+ **********************************************************************************************************************/
+
+function newRegisteredList() {
+
+    createRegisteredList();
+    fillRegisteredList();
+}
+
+/***********************************************************************************************************************
+ *                                       Registered List - Management Functions                                        *
+ **********************************************************************************************************************/
+
+function fillRegisteredList() {
+
+    for (let registered in registeredList) {
+        $('#registered_list table')
+            .append($('<tr/>')
+                .append($('<td/>')
+                    .html(registeredList[registered]['TYPE_ENVOI'])
+                )
+                .append($('<td/>')
+                    .html(registeredList[registered]['DOSSIER'])
+                )
+                .append($('<td/>')
+                    .html(registeredList[registered]['DEMANDEUR'])
+                )
+                .append($('<td/>')
+                    .html(registeredList[registered]['ADRESSE_1']
+                        + (registeredList[registered]['ADRESSE_2'] !== undefined ? '<br/>' + registeredList[registered]['ADRESSE_2'] : '')
+                        + (registeredList[registered]['ADRESSE_3'] !== undefined ? '<br/>' + registeredList[registered]['ADRESSE_3'] : '')
+                    )
+                )
+            );
+    }
+}
+
+/***********************************************************************************************************************
+ *                                         Registered List - Initialization                                            *
+ **********************************************************************************************************************/
+
+function createRegisteredList() {
+
+    let myList =
+        $('<fieldset/>')
+            .append($('<legend/>')
+                .html('Liste des recommandés')
+            )
+            .append($('<table/>')
+                .attr({
+                    'id' : 'registered_list_tab'
+                })
+                .append($('<tr/>')
+                    .attr({
+                        'id' : 'labels'
+                    })
+                    .append($('<th/>').html('Type'))
+                    .append($('<th/>').html('Description'))
+                    .append($('<th/>').html('Demandeur'))
+                    .append($('<th/>').html('Adresse'))
+                )
+            );
+
     $('#registered_list')
         .append(myList);
 }

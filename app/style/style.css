@@ -1,6 +1,22 @@
 /**********************************************************************************************************************\
 |                                                    Navbar CSS                                                        |
 \**********************************************************************************************************************/
+
+html {
+    padding: 5% 10% 5% 10%;
+    margin: 0;
+    background: darkcyan;
+}
+
+body {
+    padding : 2%;
+    border : 2px solid darkblue!important;
+    background: rgba(245, 245, 245, 0.8)!important;
+}
+
+/**********************************************************************************************************************\
+|                                                    Navbar CSS                                                        |
+\**********************************************************************************************************************/
 .navbar {
     margin-bottom: 25px;
 }
@@ -14,7 +30,7 @@
 }
 
 .navbar li {
-    float: left;
+    float: bottom;
 }
 
 .navbar li a {
@@ -36,30 +52,68 @@
 /**********************************************************************************************************************\
 |                                                 Completion Form                                                      |
 \**********************************************************************************************************************/
-#registered_form input {
+
+input {
+    text-align: center;
     color: transparent;
     text-shadow: 0 0 0 black;
     width: 40px;
-    text-align: center;
 }
 
-#registered_form input:focus {
+input:focus {
     outline: none !important;
     border: 2px solid black;
 }
 
-#registered_form input, select, button {
+input, select, button {
     height: 20px;
 }
 
-input#file_fifth_char, input#file_status {
+input#file_fifth_char, input#file_status, input#search_file_fifth_char, input#search_file_status {
     width: 15px;
 }
 
-input#file_id {
+input#file_id, input#search_file_id {
     letter-spacing: 2px;
 }
 
-input#file_date {
+input#file_date, input#search_file_date {
     width: auto;
+}
+
+/**********************************************************************************************************************\
+|                                                     Tables                                                           |
+\**********************************************************************************************************************/
+
+table, th, td {
+    text-align : center;
+}
+
+table {
+    table-layout: fixed ;
+    width: 100% ;
+}
+
+td {
+    width: 25% ;
+}
+
+/**********************************************************************************************************************\
+|                                                  Registered List                                                     |
+\**********************************************************************************************************************/
+
+#registered_list table {
+    border-collapse: collapse;
+}
+
+#registered_list table, #registered_list tr {
+    border: 1px solid darkgray;
+}
+
+#registered_list tr {
+    height: 4em;
+}
+
+#registered_list tr:first-child {
+    height: 2em;
 }
