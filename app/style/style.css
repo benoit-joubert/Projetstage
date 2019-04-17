@@ -3,9 +3,10 @@
 \**********************************************************************************************************************/
 
 html {
-    padding: 5% 10% 5% 10%;
+    padding: 1% 10% 1% 10%;
     margin: 0;
     background: darkcyan;
+    hyphens: auto;
 }
 
 body {
@@ -57,7 +58,7 @@ input {
     text-align: center;
     color: transparent;
     text-shadow: 0 0 0 black;
-    width: 40px;
+    width: 50px;
 }
 
 input:focus {
@@ -94,9 +95,10 @@ table {
     width: 100% ;
 }
 
-td {
-    width: 25% ;
+th, td {
+    width: 25%;
 }
+
 
 /**********************************************************************************************************************\
 |                                                  Registered List                                                     |
@@ -104,6 +106,21 @@ td {
 
 #registered_list table {
     border-collapse: collapse;
+}
+
+#registered_list table thead {
+    width: 100%;
+    display: inline-table;
+}
+
+#registered_list table tbody
+{
+    display: block;
+    overflow-y: scroll;
+}
+
+#registered_list table tbody {
+    height: 20em;
 }
 
 #registered_list table, #registered_list tr {
@@ -114,6 +131,6 @@ td {
     height: 4em;
 }
 
-#registered_list tr:first-child {
+#registered_list thead tr:first-child {
     height: 2em;
 }

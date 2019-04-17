@@ -174,7 +174,7 @@ function initializeInputScript(currentInput, maxLength, defaultValue, positionLe
             'maxlength' : maxLength,
             'value' : defaultValue,
             'onKeyUp' : 'addChar(event, this, ' + maxLength + ', [' + positionLetters + '], [' + positionNumbers + '])',
-            'onKeyDown' : 'preventBackSpace()',
+            'onKeyDown' : 'preventBackSpace(event)',
             'required' : ''
         });
 }
@@ -255,14 +255,14 @@ function createCompletionForm() {
             )
             .append($('<table/>')
                 .append($('<tr/>')
-                        .attr({
-                            'id' : 'labels'
-                        })
+                    .attr({
+                        'id' : 'labels'
+                    })
                 )
                 .append($('<tr/>')
-                        .attr({
-                            'id' : 'contents'
-                        })
+                    .attr({
+                        'id' : 'contents'
+                    })
                 )
             );
 
@@ -430,25 +430,49 @@ function newRegisteredList() {
 
 function fillRegisteredList() {
 
-    for (let registered in registeredList) {
-        $('#registered_list table')
-            .append($('<tr/>')
+    let count = 0;
+    $('#registered_list table tbody tr:empty')
+        .each(function () {
+            $(this)
                 .append($('<td/>')
-                    .html(registeredList[registered]['TYPE_ENVOI'])
+                        .html(registeredList[count]['TYPE_ENVOI'])
                 )
                 .append($('<td/>')
-                    .html(registeredList[registered]['DOSSIER'])
+                        .html(registeredList[count]['DOSSIER'])
                 )
                 .append($('<td/>')
-                    .html(registeredList[registered]['DEMANDEUR'])
+                        .html(registeredList[count]['DEMANDEUR'])
                 )
                 .append($('<td/>')
-                    .html(registeredList[registered]['ADRESSE_1']
-                        + (registeredList[registered]['ADRESSE_2'] !== undefined ? '<br/>' + registeredList[registered]['ADRESSE_2'] : '')
-                        + (registeredList[registered]['ADRESSE_3'] !== undefined ? '<br/>' + registeredList[registered]['ADRESSE_3'] : '')
+                        .html(registeredList[count]['ADRESSE_1']
+                            + (registeredList[count]['ADRESSE_2'] !== undefined ? '<br/>' + registeredList[count]['ADRESSE_2'] : '')
+                            + (registeredList[count]['ADRESSE_3'] !== undefined ? '<br/>' + registeredList[count]['ADRESSE_3'] : '')
+                        )
+                );
+            ++count;
+            }
+        );
+    if (registeredList.length > count + 1){
+        for (count+1; count < registeredList.length; ++count) {
+            $('#registered_list table tbody')
+                .append($('<tr/>')
+                    .append($('<td/>')
+                        .html(registeredList[count]['TYPE_ENVOI'])
                     )
-                )
-            );
+                    .append($('<td/>')
+                        .html(registeredList[count]['DOSSIER'])
+                    )
+                    .append($('<td/>')
+                        .html(registeredList[count]['DEMANDEUR'])
+                    )
+                    .append($('<td/>')
+                        .html(registeredList[count]['ADRESSE_1']
+                            + (registeredList[count]['ADRESSE_2'] !== undefined ? '<br/>' + registeredList[count]['ADRESSE_2'] : '')
+                            + (registeredList[count]['ADRESSE_3'] !== undefined ? '<br/>' + registeredList[count]['ADRESSE_3'] : '')
+                        )
+                    )
+                );
+        }
     }
 }
 
@@ -467,14 +491,23 @@ function createRegisteredList() {
                 .attr({
                     'id' : 'registered_list_tab'
                 })
-                .append($('<tr/>')
-                    .attr({
-                        'id' : 'labels'
-                    })
-                    .append($('<th/>').html('Type'))
-                    .append($('<th/>').html('Description'))
-                    .append($('<th/>').html('Demandeur'))
-                    .append($('<th/>').html('Adresse'))
+                .append($('<thead/>')
+                    .append($('<tr/>')
+                        .attr({
+                            'id' : 'labels'
+                        })
+                        .append($('<th/>').html('Type'))
+                        .append($('<th/>').html('Description'))
+                        .append($('<th/>').html('Demandeur'))
+                        .append($('<th/>').html('Adresse'))
+                    )
+                )
+                .append($('<tbody/>')
+                    .append($('<tr/>'))
+                    .append($('<tr/>'))
+                    .append($('<tr/>'))
+                    .append($('<tr/>'))
+                    .append($('<tr/>'))
                 )
             );
 

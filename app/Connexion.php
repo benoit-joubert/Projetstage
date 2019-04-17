@@ -65,6 +65,48 @@ class Connexion {
         return $sqlRequest;
     }
 
+    public function sqlRequestInsert($into, $elements, $insertedElements){
+        //INSERT INTO PART
+        $insertRequest = 'INSERT INTO ';
+        foreach ($into as $value) {
+            $insertRequest .= $value;
+        }
+        //ELEMENTS PART
+        $insertRequest .= '(';
+        foreach ($elements as $value){
+            $insertRequest .= $value . ', ';
+        }
+        $insertRequest = substr($insertRequest,0,-2);
+        $insertRequest .= ')';
+
+        //INSERTED ELEMENTS PART
+        $insertRequest .= ' VALUES (';
+        foreach ($insertedElements as $value){
+            $insertRequest .= $value . ', ';
+        }
+        $insertRequest = substr($insertRequest,0,-2);
+        $insertRequest .= ')';
+
+        return $insertRequest;
+    }
+
+    public function sqlRequestDelete($from, $where) {
+        //DELETE FROM PART
+        $deleteRequest = 'DELETE FROM ';
+        foreach ($from as $value){
+            $deleteRequest .= $value;
+        }
+
+        //WHERE PART
+        $deleteRequest .= ' WHERE ';
+        foreach ($where as $value) {
+            $deleteRequest .= $value . ' AND ';
+        }
+        $deleteRequest = substr($deleteRequest,0,-5);
+
+        return $deleteRequest;
+    }
+
     public function getElements($select, $from, $where ='', $groupBy='', $orderBy='', $order='') {
 
         $stid = oci_parse($this->connected,$this->sqlRequestView($select, $from, $where, $groupBy, $orderBy, $order));
@@ -81,5 +123,10 @@ class Connexion {
         }
 
         return json_encode($result);
+    }
+
+    public function addElement($into,$element,$insertedElements) {
+        $stid = oci_parse($this->connected,$this->sqlRequestInsert($into, $element, $insertedElements));
+        oci_execute($stid);
     }
 }
