@@ -6,6 +6,7 @@ class Connexion {
     private $password = 'test';
     private $host = 'sdiadem-cluster.intranet/SIGTEST';
     private $connected;
+    private $queryArray = [];
 
     public function __construct() {
 
@@ -16,35 +17,62 @@ class Connexion {
         );
     }
 
-    public function sqlRequest($tableName, $rownum, ...$fields) {
-
+    public function sqlRequest($select, $from, $where ='', $groupby='', $orderby='', $order='') {
         // SELECT PART
         $sqlRequest = 'SELECT ';
-        foreach ($fields as $field) {
-            $sqlRequest .= $field . ', ';
+        foreach ($select as $item){
+            $sqlRequest .= $item. ', ';
         }
-        $sqlRequest = substr($sqlRequest, 0,-2);
+        $sqlRequest = substr($sqlRequest,0,-2);
+        //FROM PART
+        $sqlRequest .= ' FROM ';
+        foreach ($from as $item){
+            $sqlRequest .= $item. ', ';
+        }
+        $sqlRequest = substr($sqlRequest,0,-2);
+        //WHERE PART
+        if ($where !='') {
+            $sqlRequest .= ' WHERE ';
+            foreach ($where as $item) {
+                $sqlRequest .= $item . ' AND ';
+            }
+            $sqlRequest = substr($sqlRequest, 0, -5);
+        }
+        //GROUP BY PART
+        if ($groupby !='') {
+            $sqlRequest .= ' GROUP BY ';
+            foreach ($groupby as $item) {
+                $sqlRequest .= $item . ', ';
+            }
+            $sqlRequest = substr($sqlRequest, 0, -2);
+        }
+         //ORDER BY PART
+        if($orderby !='') {
+            $sqlRequest .= ' ORDER BY ';
+            foreach ($orderby as $item) {
+                $sqlRequest .= $item . ', ';
+            }
+            $sqlRequest = substr($sqlRequest, 0, -2);
+        }
+        //ORDER PART
+        if ($order != '') $sqlRequest .= ' ' . $order;
 
-        // FROM PART
-        $sqlRequest .= ' FROM ' . $tableName;
 
-        // ROWNUM PART
-        if ($rownum != '') $sqlRequest .= ' WHERE ROWNUM <= ' . $rownum;
 
         return $sqlRequest;
     }
 
-    public function getElements($tableName, $rownum, ...$fields) {
+    public function getElements($select, $from, $where ='', $groupby='', $orderby='', $order='') {
 
-        $stid = oci_parse($this->connected,$this->sqlRequest($tableName, $rownum, ...$fields));
+        $stid = oci_parse($this->connected,$this->sqlRequest($select, $from, $where, $groupby, $orderby, $order));
         oci_execute($stid);
 
         $result = array();
         $count = 0;
 
         while (($row = oci_fetch_array($stid, OCI_BOTH)) != false) {
-            foreach ($fields as $field) {
-                if (isset($row[$field])) $result[$count][$field] = $row[$field];
+            foreach ($select as $sel) {
+                if (isset($row[$sel])) $result[$count][$sel] = $row[$sel];
             }
             ++$count;
         }
