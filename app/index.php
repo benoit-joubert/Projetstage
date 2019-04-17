@@ -2,9 +2,9 @@
     require 'Connexion.php';
 
     $db = new Connexion();
-    $listFileType = $db->getElements(array('TYPDOS'),array('TYPDOS'));
-    $listRemarks = $db->getElements(array('REMARQUE'),array('REMARQUES'));
-    $listRegistered = $db->getElements(array('TYPE_ENVOI', 'DOSSIER', 'DEMANDEUR', 'ADRESSE_1', 'ADRESSE_2', 'ADRESSE_3'),array('T_COMPLETE'),array('ROWNUM <= 5'));
+    $listFileType = $db->getElements(array('TYPDOS'), array('TYPDOS'));
+    $listRemarks = $db->getElements(array('REMARQUE'), array('REMARQUES'));
+    $listRegistered = $db->getElements(array('TYPE_ENVOI', 'DOSSIER', 'DEMANDEUR', 'ADRESSE_1', 'ADRESSE_2', 'ADRESSE_3'), array('T_COMPLETE'), array('ROWNUM <= 5'));
 ?>
 <html lang="fr-FR">
 <head>
