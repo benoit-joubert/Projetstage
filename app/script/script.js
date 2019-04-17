@@ -25,7 +25,6 @@ function isJSON(obj) {
 
 function convertToId(string) {
 
-    console.log(string)
     string = string.replace(/ /g, '_');
     string = string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     string = string.toLowerCase();
@@ -127,7 +126,6 @@ function fillSelectScript(currentSelect, datalist) {
         return false;
 
     jQuery.each(datalist, function () {
-
         $(currentSelect)
             .append($('<option/>')
                 .attr({
@@ -247,7 +245,7 @@ function createCompletionForm() {
         'Date' :
             $('<input/>').attr({'id' : 'file_date', 'type' : 'date', 'required' : ''}).val(new Date().toDateInputValue()),
         '' :
-            $('<button/>').attr({'type' : 'submit'}).html('Ajouter')
+            $('<button/>').attr({'id' : 'file_button', 'type' : 'submit'}).html('Ajouter')
     };
 
     let myForm =
@@ -292,6 +290,7 @@ function newSearchFields() {
     createSearchFields();
     fillAllSearchSelects();
     initializeAllSearchInputs();
+    initializeAllButtons();
 }
 
 /***********************************************************************************************************************
@@ -317,6 +316,51 @@ function initializeAllSearchInputs() {
 }
 
 /***********************************************************************************************************************
+ *                                      Search Fields - Button Management Functions                                    *
+ **********************************************************************************************************************/
+
+function getFileNumber(prefix) {
+
+    if (prefix === 'search') prefix+= '_';
+    let fileNumber =
+        $('#' + prefix + 'file_type').val() +
+        $('#' + prefix + 'file_year').val() +
+        $('#' + prefix + 'file_fifth_char').val() +
+        $('#' + prefix + 'file_id').val() +
+        $('#' + prefix + 'file_status').val();
+    fileNumber = fileNumber.toUpperCase();
+
+    if (!fileNumber.match(/[A-Z]{2}[0-9]{2}[A-Z0-9][0-9]{4}[A-Z0-9]/)) return false;
+    return fileNumber;
+}
+
+function getFileDate(prefix) {
+
+    if (prefix === 'search') prefix+= '_';
+    return $('#' + prefix + 'file_date').val();
+}
+
+function initializeButtonScript(currentButton, type) {
+
+    let fileNumber;
+    let fileDate;
+
+    if (!$(currentButton).is('button')) return false;
+
+    $(currentButton)
+        .on('click', function () {
+            fileNumber = getFileNumber(type);
+            fileDate = getFileDate(type);
+        })
+}
+
+function initializeAllButtons() {
+
+    initializeButtonScript($('#file_button'), '');
+    initializeButtonScript($('#search_file_button'), 'search');
+}
+
+/***********************************************************************************************************************
  *                                           Search fields - Initialization                                            *
  **********************************************************************************************************************/
 
@@ -334,7 +378,7 @@ function createSearchFields() {
         'Date' :
             $('<input/>').attr({'id' : 'search_file_date', 'type' : 'date', 'required' : ''}).val(new Date().toDateInputValue()),
         '' :
-            $('<button/>').attr({'type' : 'submit'}).html('Rechercher')
+            $('<button/>').attr({'id' : 'search_file_button', 'type' : 'submit'}).html('Rechercher')
     };
 
     let myForm =
