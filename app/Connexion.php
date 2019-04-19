@@ -1,5 +1,18 @@
 <?php
 
+if (isset($_POST['function'])) {
+    $function = $_POST['function'];
+    $params = $_POST['params'];
+
+    $calledFunction = '$db = new Connexion(); echo $db->' . $_POST['function'] . '(';
+    foreach ($params as $param => $value) {
+        $calledFunction .= $value . ', ';
+    }
+    $calledFunction = substr($calledFunction,0,-2);
+    $calledFunction .= ');';
+    eval($calledFunction);
+}
+
 class Connexion {
 
     private $user = 'GEOPC_RECOMMANDEES';
@@ -107,7 +120,7 @@ class Connexion {
         return $deleteRequest;
     }
 
-    public function getElements($select, $from, $where ='', $groupBy='', $orderBy='', $order='') {
+    public function getElements($select, $from, $where = '', $groupBy = '', $orderBy = '', $order = '') {
 
         $stid = oci_parse($this->connected,$this->sqlRequestView($select, $from, $where, $groupBy, $orderBy, $order));
         oci_execute($stid);

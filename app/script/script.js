@@ -342,15 +342,27 @@ function getFileDate(prefix) {
 
 function initializeButtonScript(currentButton, type) {
 
-    let fileNumber;
-    let fileDate;
-
     if (!$(currentButton).is('button')) return false;
 
     $(currentButton)
         .on('click', function () {
-            fileNumber = getFileNumber(type);
-            fileDate = getFileDate(type);
+            $.ajax({
+                url : 'Connexion.php',
+                type : 'POST',
+                data : {
+                    function : 'getElements',
+                    params : {
+                        param1 : "array('TYPDOS', 'NUMDOS', 'PCMODI', 'NUMCOM', 'DEMANDEUR', 'DPM_NOM', " +
+                            "'DPM_REP_ME', 'DPM_REP_MR', 'DADR_NUMRUE', 'DADR_NOMRUE', 'DADR_CP', 'DADR_LOCALITE', " +
+                            "'INSTRUCT', 'DADR_LIEUDIT')",
+                        param2 : "array('URBANISME.GPC_ENTDOS')",
+                        param3 : "array('\\\'AT0900023I\\\' = TYPDOS || NUMDOS || PCMODI')"
+                    }
+                },
+                success : function(data) {
+                    console.log(data);
+                }
+            })
         })
 }
 
@@ -433,27 +445,27 @@ function fillRegisteredList() {
     let count = 0;
     $('#registered_list table tbody tr:empty')
         .each(function () {
-            $(this)
-                .append($('<td/>')
-                        .html(registeredList[count]['TYPE_ENVOI'])
-                )
-                .append($('<td/>')
-                        .html(registeredList[count]['DOSSIER'])
-                )
-                .append($('<td/>')
-                        .html(registeredList[count]['DEMANDEUR'])
-                )
-                .append($('<td/>')
-                        .html(registeredList[count]['ADRESSE_1']
-                            + (registeredList[count]['ADRESSE_2'] !== undefined ? '<br/>' + registeredList[count]['ADRESSE_2'] : '')
-                            + (registeredList[count]['ADRESSE_3'] !== undefined ? '<br/>' + registeredList[count]['ADRESSE_3'] : '')
+                if (registeredList[count] != null) {
+                    $(this)
+                        .append($('<td/>')
+                            .html(registeredList[count]['TYPE_ENVOI'])
                         )
-                );
-            ++count;
+                        .append($('<td/>')
+                            .html(registeredList[count]['DOSSIER'])
+                        )
+                        .append($('<td/>')
+                            .html(registeredList[count]['DEMANDEUR'])
+                        )
+                        .append($('<td/>')
+                            .html(registeredList[count]['ADRESSE'])
+                        );
+                    ++count
+                }
             }
         );
-    if (registeredList.length > count + 1){
-        for (count+1; count < registeredList.length; ++count) {
+
+    if (registeredList.length > count){
+        for (count; count < registeredList.length; ++count) {
             $('#registered_list table tbody')
                 .append($('<tr/>')
                     .append($('<td/>')
@@ -466,10 +478,7 @@ function fillRegisteredList() {
                         .html(registeredList[count]['DEMANDEUR'])
                     )
                     .append($('<td/>')
-                        .html(registeredList[count]['ADRESSE_1']
-                            + (registeredList[count]['ADRESSE_2'] !== undefined ? '<br/>' + registeredList[count]['ADRESSE_2'] : '')
-                            + (registeredList[count]['ADRESSE_3'] !== undefined ? '<br/>' + registeredList[count]['ADRESSE_3'] : '')
-                        )
+                        .html(registeredList[count]['ADRESSE'])
                     )
                 );
         }

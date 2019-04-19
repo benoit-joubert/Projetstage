@@ -4,7 +4,7 @@
     $db = new Connexion();
     $listFileType = $db->getElements(array('TYPDOS'), array('TYPDOS'));
     $listRemarks = $db->getElements(array('REMARQUE'), array('REMARQUES'));
-    $listRegistered = $db->getElements(array('TYPE_ENVOI', 'DOSSIER', 'DEMANDEUR', 'ADRESSE_1', 'ADRESSE_2', 'ADRESSE_3'), array('T_COMPLETE'), array('ROWNUM <= 100'));
+    $listRegistered = $db->getElements(array('TYPE_ENVOI', 'DOSSIER', 'DEMANDEUR', 'ADRESSE'), array('T_COMPLETE'), array('ROWNUM <= 2'));
 ?>
 <html lang="fr-FR">
 <head>
@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" href="style/style.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script type="text/javascript" src="script/script.js"></script>
 </head>
 <body>

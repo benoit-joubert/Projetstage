@@ -6,7 +6,6 @@ html {
     padding: 1% 10% 1% 10%;
     margin: 0;
     background: darkcyan;
-    hyphens: auto;
 }
 
 body {
@@ -86,19 +85,19 @@ input#file_date, input#search_file_date {
 |                                                     Tables                                                           |
 \**********************************************************************************************************************/
 
-table, th, td {
-    text-align : center;
-}
-
 table {
-    table-layout: fixed ;
+    table-layout: fixed;
+    text-align : center;
     width: 100% ;
 }
 
-th, td {
-    width: 25%;
+thead, tbody {
+    width: 100%;
 }
 
+th, td {
+    width: 278px;
+}
 
 /**********************************************************************************************************************\
 |                                                  Registered List                                                     |
@@ -108,8 +107,11 @@ th, td {
     border-collapse: collapse;
 }
 
+#registered_list table, #registered_list tr {
+    border: 1px solid darkgray;
+}
+
 #registered_list table thead {
-    width: 100%;
     display: inline-table;
 }
 
@@ -121,10 +123,6 @@ th, td {
 
 #registered_list table tbody {
     height: 20em;
-}
-
-#registered_list table, #registered_list tr {
-    border: 1px solid darkgray;
 }
 
 #registered_list tr {
