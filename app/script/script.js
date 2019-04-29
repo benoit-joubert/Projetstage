@@ -507,7 +507,7 @@ function clickHandler() {
         $('tr').removeClass('clicked');
         $(this).addClass('clicked');
         clickedFile = $(this);
-    })
+    });
 }
 
 /***********************************************************************************************************************
@@ -767,7 +767,8 @@ function newPrintButtons() {
 
 function initializePrintButtons() {
 
-    $('#registered_view').click(function () {
+    $('#registered_list_print').click(function () {
+        console.log(JSON.stringify(registeredList));
         $.ajax({
             url: 'PDF.php',
             type: 'POST',
@@ -782,7 +783,41 @@ function initializePrintButtons() {
                 win.location.href = data;
             }
         });
-    })
+    });
+
+    $('#registered_print').click(function () {
+        if (clickedFile == null) return false;
+
+        let registeredListTemp = [];
+        registeredListTemp.push(registeredList[clickedFile.index()]);
+        $.ajax({
+            url: 'PDF.php',
+            type: 'POST',
+            data: {
+                function: 'body',
+                params: {
+                    param1: "'" + JSON.stringify(registeredListTemp).replace(/'/g, '\\\'')+ "'",
+                }
+            },
+            success: function(data) {
+                $.ajax({
+                    url: 'Connexion.php',
+                    type: 'POST',
+                    data: {
+                        function: 'updateElement',
+                        params: {
+                            param1: "'T_COMPLETE'",
+                            param2: "'NUMERO_ENVOI'",
+                            param3: "'1'",
+                            param4: "'DOSSIER = \\\'" + registeredListTemp[0].DOSSIER + "\\\''",
+                        },
+                    }
+                });
+                let win = window.open('', '_blank');
+                win.location.href = data;
+            }
+        });
+    });
 }
 
 /***********************************************************************************************************************
@@ -793,11 +828,8 @@ function createPrintButtons() {
 
     let myButtons =
         $('<div/>')
-            .append($('<button/>')
-                .attr({
-                    'id' : 'registered_view'
-                })
-                .html('<i class="fas fa-search"></i>')
+            .append($('<span/>')
+                .html('Recommandé')
             )
             .append($('<button/>')
                 .attr({
@@ -805,11 +837,8 @@ function createPrintButtons() {
                 })
                 .html('<i class="fas fa-print"></i>')
             )
-            .append($('<button/>')
-                .attr({
-                    'id' : 'registered_list_view'
-                })
-                .html('<i class="fas fa-search"></i>')
+            .append($('<span/>')
+                .html('Liste des recommandés')
             )
             .append($('<button/>')
                 .attr({

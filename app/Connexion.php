@@ -106,21 +106,19 @@ class Connexion {
         return $insertRequest;
     }
 
-    public function sqlRequestDelete($from, $where) {
-        //DELETE FROM PART
-        $deleteRequest = 'DELETE FROM ';
-        foreach ($from as $value){
-            $deleteRequest .= $value;
-        }
+    public function sqlRequestUpdate($from, $element, $updatedElement, $where) {
+
+        //UPDATE PART
+        $updateRequest = 'UPDATE ';
+        $updateRequest .= $from;
+
+        //SET PART
+        $updateRequest .= ' SET ' . $element . ' = ' . $updatedElement;
 
         //WHERE PART
-        $deleteRequest .= ' WHERE ';
-        foreach ($where as $value) {
-            $deleteRequest .= $value . ' AND ';
-        }
-        $deleteRequest = substr($deleteRequest,0,-5);
+        $updateRequest .= ' WHERE ' . $where;
 
-        return $deleteRequest;
+        return $updateRequest;
     }
 
     public function getElements($select, $from, $where = '', $groupBy = '', $orderBy = '', $order = '') {
@@ -144,6 +142,12 @@ class Connexion {
     public function addElement($into,$element,$insertedElements) {
 
         $stid = oci_parse($this->connected,$this->sqlRequestInsert($into, $element, $insertedElements));
+        oci_execute($stid);
+    }
+
+    public function updateElement($from, $element, $updatedElement, $where) {
+
+        $stid = oci_parse($this->connected,$this->sqlRequestUpdate($from, $element, $updatedElement, $where));
         oci_execute($stid);
     }
 }

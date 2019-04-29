@@ -52,14 +52,14 @@ class PDF extends FPDF {
 
         foreach ($fileTypes as $fileType) {
             $this->SetFont('Arial', 'B', 12);
+            $this->SetX(5);
             $this->Cell(201, 4, $fileType, 0, 0, 'L');
-            $this->SetXY(5, $this->GetY() + 4);
+            $this->SetXY(5, $this->GetY() + 5);
             $this->Cell(201, 1, '', 'T', 0, 'C');
             foreach ($json as $registered){
                 if ($registered->TYPE_ENVOI == $fileType) {
                     $this->fillBody($registered->DOSSIER, $registered->INSTRUCT, $registered->CIVILITE_DEMANDEUR . ' '.$registered->DEMANDEUR, $registered->ADRESSE . ' ' . $registered->CODE_POSTAL . ' ' . $registered->VILLE, $registered->DATE_CREATION);
                 }
-                $this->Ln();
             }
             $this->Ln();
         }
@@ -70,24 +70,23 @@ class PDF extends FPDF {
         $this->SetFont('Times', '', 8);
         $this->SetXY(5, $this->GetY());
         $this->MultiCell(67, 2, $numFile . '    (Inst: ' . $inst . ')', '','L');
-        $this->SetXY(72, $this->GetY());
+        $this->SetXY(72, $this->GetY() - 2);
         $this->MultiCell(67, 2, $name, '','C');
-        $this->SetXY(139, $this->GetY());
+        $this->SetXY(139, $this->GetY() - 2);
         $this->MultiCell(67, 2, $date, '', 'R');
-        $this->SetY($this->GetY() + 2);
-        $this->SetXY(5, $this->GetY());
-        $this->MultiCell(210, 2,$address, 'B', 'R');
+        $this->SetXY(5, $this->GetY() + 3);
+        $this->MultiCell(201, 4,$address, 'B', 'C');
     }
 
     function footer() {
 
-       /* $this->SetY(-15);
+        $this->SetY(-15);
         $this->SetFont('Arial','B',8);
         $date = date('d/m/Y');
         $this->SetX(30);
         $this->Cell(-10,10, $date,0,0,'C');
         $this->SetX(0);
-        $this->Cell(370,10,'Page '.$this->PageNo().' sur {nb}',0,0,'C');*/
+        $this->Cell(370,10,'Page '.$this->PageNo().' sur {nb}',0,0,'C');
     }
 }
 
@@ -96,7 +95,6 @@ if (isset($_POST['function'])) {
     $pdf = new PDF();
     $pdf->AliasNbPages();
     $pdf->AddPage('P','A4',0);
-    //$pdf->Image('img/pdf.jpg', 0, 0, 217, 298);
     $pdf->header();
 
     $function = $_POST['function'];
