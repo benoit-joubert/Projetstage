@@ -66,7 +66,7 @@ input:focus {
 }
 
 input, select, button {
-    height: 20px;
+    height: 25px;
 }
 
 input#file_fifth_char, input#file_status, input#search_file_fifth_char, input#search_file_status {
@@ -103,6 +103,10 @@ th, td {
 |                                                  Registered List                                                     |
 \**********************************************************************************************************************/
 
+body fieldset:last-child {
+    margin-right: 30px;
+}
+
 #registered_list table {
     border-collapse: collapse;
 }
@@ -122,13 +126,22 @@ th, td {
 }
 
 #registered_list table tbody {
-    height: 20em;
+    height: 17.5em;
 }
 
 #registered_list tr {
-    height: 4em;
+    height: 3.5em;
 }
 
 #registered_list thead tr:first-child {
     height: 2em;
+}
+
+#registered_list tr.clicked {
+    background: darkcyan;
+    color: white;
+}
+
+#registered_list_tab {
+    width: 100%;
 }

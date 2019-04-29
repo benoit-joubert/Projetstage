@@ -1,6 +1,7 @@
 <?php
 
 if (isset($_POST['function'])) {
+
     $function = $_POST['function'];
     $params = $_POST['params'];
 
@@ -10,6 +11,7 @@ if (isset($_POST['function'])) {
     }
     $calledFunction = substr($calledFunction,0,-2);
     $calledFunction .= ');';
+
     eval($calledFunction);
 }
 
@@ -79,6 +81,7 @@ class Connexion {
     }
 
     public function sqlRequestInsert($into, $elements, $insertedElements){
+
         //INSERT INTO PART
         $insertRequest = 'INSERT INTO ';
         foreach ($into as $value) {
@@ -130,7 +133,7 @@ class Connexion {
 
         while (($row = oci_fetch_array($stid, OCI_BOTH)) != false) {
             foreach ($select as $sel) {
-                if (isset($row[$sel])) $result[$count][$sel] = $row[$sel];
+                $result[$count][$sel] = (isset($row[$sel])) ?  $row[$sel] : '';
             }
             ++$count;
         }
@@ -139,6 +142,7 @@ class Connexion {
     }
 
     public function addElement($into,$element,$insertedElements) {
+
         $stid = oci_parse($this->connected,$this->sqlRequestInsert($into, $element, $insertedElements));
         oci_execute($stid);
     }
