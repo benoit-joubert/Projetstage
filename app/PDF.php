@@ -4,7 +4,7 @@ require 'fpdf.php';
 
 class PDF extends FPDF {
 
-    function header() {
+    function headerRegistered() {
 
         $this->SetXY(17, 15);
         $this->Image('img/logoMairie.png', $this->GetX(), $this->GetY(), 14 , 24);
@@ -40,8 +40,148 @@ class PDF extends FPDF {
         $this->Cell(67,8,'Date','TB',0,'R');
     }
 
+    function bodyRegistered($json) {
+
+        $json = json_decode($json);
+        foreach ($json as $registered){
+            $this->fillBodyRegistered($registered->DEMANDEUR, '', $registered->ADRESSE, $registered->CODE_POSTAL, $registered->VILLE, $registered->DOSSIER, $registered->TYPE_ENVOI, $registered->INSTRUCT);
+        }
+    }
+
+    function fillBodyRegistered($recipient, $recipient_comp, $address, $pc, $city, $fileNum, $type, $instruct){
+
+        //Cross R1 Yellow Part
+        $this->SetY(27);
+        $this->SetX(88);
+        $this->SetFont('Arial','B',12);
+        $this->MultiCell(0,8,'X',0,'L');
+        $this->Ln();
+        //Cross Lettre Yellow Part
+        $this->SetX(88);
+        $this->MultiCell(0,4,'X',0,'L');
+        $this->Ln();
+        //Line Recipient Yellow and White part
+        $this->SetX(36);
+        $this->MultiCell(0,8,$recipient,0,'L');
+        $this->SetX(122);
+        $this->MultiCell(0,7,$recipient,0,'L');
+        $this->Ln();
+        //Line Recipient_Comp Yellow and White part
+        $this->SetX(36);
+        $this->MultiCell(0,3,$recipient_comp,0,'L');
+        $this->SetX(122);
+        $this->MultiCell(0,3,$recipient_comp,0,'L');
+        $this->Ln();
+        //Line Address Yellow and White part
+        $this->SetX(36);
+        $this->MultiCell(0,8,$address,0,'L');
+        $this->SetX(122);
+        $this->MultiCell(0,8,$address,0,'L');
+        $this->Ln();
+        //Line CP andYellow and White part
+        $this->SetX(36);
+        $this->MultiCell(0,12,$pc,0,'L');
+        $this->SetX(51);
+        $this->MultiCell(0,12,$city,0,'L');
+        $this->SetX(122);
+        $this->MultiCell(0,10,$pc,0,'L');
+        $this->SetX(137);
+        $this->MultiCell(0,10,$city,0,'L');
+        $this->Ln();
+        //Line FileNum and Type Yellow and White part
+        $this->SetX(36);
+        $this->MultiCell(0,2,$fileNum,0,'L');
+        $this->SetX(69);
+        $this->MultiCell(0,2,$type,0,'L');
+        $this->SetX(122);
+        $this->MultiCell(0,0,$fileNum,0,'L');
+        $this->SetX(155);
+        $this->MultiCell(0,0,$type,0,'L');
+        //Cross Grey Part
+        $this->SetXY(101,130);
+        $this->MultiCell(0,8,'X',0,'L');
+        $this->Ln();
+        $this->SetX(101);
+        $this->MultiCell(0,3,'X',0,'L');
+        $this->Ln();
+        //Destinataire Grey Part
+        $this->SetX(55);
+        $this->MultiCell(0,8,$recipient,0,'L');
+        $this->Ln();
+        //Line Recipient_Comp Grey part
+        $this->SetX(55);
+        $this->MultiCell(0,3,$recipient_comp,0,'L');
+        $this->Ln();
+        //Line Address Grey Part
+        $this->SetX(55);
+        $this->MultiCell(0,6,$address,0,'L');
+        $this->Ln(12);
+        //Line CP and City Grey part
+        $this->SetX(55);
+        $this->MultiCell(0,2,$pc,0,'L');
+        $this->SetX(70);
+        $this->MultiCell(0,2,$city,0,'L');
+        $this->Ln();
+        //FileNum and Type Grey Part
+        $this->SetX(54);
+        $this->MultiCell(0,6,$fileNum,0,'L');
+        $this->SetX(88);
+        $this->MultiCell(0,6,$type,0,'L');
+        $this->Ln(13);
+        //shipping agent Grey Part
+        $this->SetX(56);
+        $this->SetFont('Arial','',12);
+        $this->MultiCell(0,0, 'VILLE D\'AIX EN PROVENCE',0,'L');
+        $this->Ln(5);
+        $this->SetX(56);
+        $this->MultiCell(0,0, 'DIRECTION DE L\'URBANISME ( A.D.S. )',0,'L');
+        $this->Ln(5);
+        $this->SetX(56);
+        $this->MultiCell(0,0, '12, Rue Pierre et Marie CURIE CS 30715',0,'L');
+        $this->Ln(5);
+        $this->SetX(56);
+        $this->MultiCell(0,0, '13616 - Aix en Provence -  CEDEX 1',0,'L');
+        $this->Ln(40);
+        //Recipient Red Part
+        $this->SetX(56);
+        $this->MultiCell(0,0,$recipient,0,'L');
+        $this->Ln(5);
+        $this->SetX(56);
+        $this->MultiCell(0,0,$recipient_comp,0,'L');
+        $this->Ln(5);
+        $this->SetX(56);
+        $this->MultiCell(0,0,$address,0,'L');
+        $this->Ln(10);
+        $this->SetX(56);
+        $this->MultiCell(0,0,$pc,0,'L');
+        $this->SetX(86);
+        $this->MultiCell(0,0,$city,'L');
+        $this->Ln(4);
+        $this->SetX(56);
+        $this->MultiCell(0,0,$fileNum,0,'L');
+        $this->SetX(91);
+        $this->MultiCell(0,0,$type,0,'L');
+        $this->SetX(121);
+        $this->MultiCell(0,0,$instruct,0,'L');
+        $this->Ln(5);
+        $this->SetX(56);
+        //Shipping Red Part
+        $this->SetFont('Arial','B',12);
+        $this->MultiCell(0,0, 'VILLE D\'AIX EN PROVENCE' ,0,'L');
+        $this->Ln(5);
+        $this->SetX(56);
+        $this->MultiCell(0,0, 'DIRECTION DE L\'URBANISME ( A.D.S. )',0,'L');
+        $this->Ln(4);
+        $this->SetX(56);
+        $this->MultiCell(0,0, '12, Rue Pierre et Marie CURIE CS 30715',0,'L');
+        $this->Ln(3.9);
+        $this->SetX(56);
+        $this->MultiCell(0,0,'13616 - Aix en Provence -  CEDEX 1', 0,'L');
+    }
+
     function body($json) {
 
+        $this->headerRegistered();
         $json = json_decode($json);
         $fileTypes = array();
         foreach ($json as $registered){
@@ -63,10 +203,13 @@ class PDF extends FPDF {
             }
             $this->Ln();
         }
+        $this->footerRegistered();
     }
+
     function fillBody($numFile, $inst, $name, $address, $date) {
 
-        $this->SetY($this->GetY() + 2);
+        //$this->SetY($this->GetY() + 1);
+        $this->Ln(1);
         $this->SetFont('Times', '', 8);
         $this->SetXY(5, $this->GetY());
         $this->MultiCell(67, 2, $numFile . '    (Inst: ' . $inst . ')', '','L');
@@ -78,9 +221,9 @@ class PDF extends FPDF {
         $this->MultiCell(201, 4,$address, 'B', 'C');
     }
 
-    function footer() {
+    function footerRegistered() {
 
-        $this->SetY(-15);
+        $this->SetY(-30.01);
         $this->SetFont('Arial','B',8);
         $date = date('d/m/Y');
         $this->SetX(30);
@@ -95,7 +238,6 @@ if (isset($_POST['function'])) {
     $pdf = new PDF();
     $pdf->AliasNbPages();
     $pdf->AddPage('P','A4',0);
-    $pdf->header();
 
     $function = $_POST['function'];
     $params = $_POST['params'];

@@ -768,7 +768,6 @@ function newPrintButtons() {
 function initializePrintButtons() {
 
     $('#registered_list_print').click(function () {
-        console.log(JSON.stringify(registeredList));
         $.ajax({
             url: 'PDF.php',
             type: 'POST',
@@ -794,7 +793,7 @@ function initializePrintButtons() {
             url: 'PDF.php',
             type: 'POST',
             data: {
-                function: 'body',
+                function: 'bodyRegistered',
                 params: {
                     param1: "'" + JSON.stringify(registeredListTemp).replace(/'/g, '\\\'')+ "'",
                 }
