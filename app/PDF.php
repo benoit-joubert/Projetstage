@@ -43,92 +43,122 @@ class PDF extends FPDF {
     function bodyRegistered($json) {
 
         $json = json_decode($json);
+        $db = oci_connect('GEOPC_RECOMMANDEES','test','sdiadem-cluster.intranet/SIGTEST');
         foreach ($json as $registered){
-            $this->fillBodyRegistered($registered->DEMANDEUR, '', $registered->ADRESSE, $registered->CODE_POSTAL, $registered->VILLE, $registered->DOSSIER, $registered->TYPE_ENVOI, $registered->INSTRUCT);
+            $sql = 'SELECT ID_ARRETE FROM T_COMPLETE WHERE DOSSIER = \'' . $registered->DOSSIER . '\'';
+            $stid = oci_parse($db, $sql);
+            oci_execute($stid);
+            $numero = '';
+            while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+                foreach ($row as $item) {
+                    $numero = $item;
+                }
+            }
+            $this->fillBodyRegistered($registered->DEMANDEUR, '', $registered->ADRESSE, $registered->CODE_POSTAL, $registered->VILLE, $registered->DOSSIER, $registered->TYPE_ENVOI, $registered->INSTRUCT,$numero);
         }
     }
 
-    function fillBodyRegistered($recipient, $recipient_comp, $address, $pc, $city, $fileNum, $type, $instruct){
+    function fillBodyRegistered($recipient, $recipient_comp, $address, $pc, $city, $fileNum, $type, $instruct, $idarret){
 
         //Cross R1 Yellow Part
-        $this->SetY(27);
-        $this->SetX(88);
+        $this->SetY(30);
+        $this->SetX(85);
         $this->SetFont('Arial','B',12);
-        $this->MultiCell(0,8,'X',0,'L');
-        $this->Ln();
+        $this->MultiCell(0,3,'X',0,'L');
         //Cross Lettre Yellow Part
-        $this->SetX(88);
-        $this->MultiCell(0,4,'X',0,'L');
         $this->Ln();
+        $this->SetX(85);
+        $this->MultiCell(0,2,'X',0,'L');
         //Line Recipient Yellow and White part
+        $this->Ln(4);
         $this->SetX(36);
-        $this->MultiCell(0,8,$recipient,0,'L');
+        $this->MultiCell(70,4,$recipient,0,'L');
+        $this->Ln(-7);
         $this->SetX(122);
-        $this->MultiCell(0,7,$recipient,0,'L');
-        $this->Ln();
+        $this->MultiCell(0,4,$recipient,0,'L');
         //Line Recipient_Comp Yellow and White part
+        $this->Ln(1);
+        $this->SetX(122);
+        $this->MultiCell(0,2,$recipient_comp,0,'L');
         $this->SetX(36);
         $this->MultiCell(0,3,$recipient_comp,0,'L');
-        $this->SetX(122);
-        $this->MultiCell(0,3,$recipient_comp,0,'L');
-        $this->Ln();
         //Line Address Yellow and White part
+        $this->Ln(-1);
         $this->SetX(36);
-        $this->MultiCell(0,8,$address,0,'L');
+        $this->MultiCell(70,4,$address,0,'L');
+        $this->Ln(-9);
         $this->SetX(122);
-        $this->MultiCell(0,8,$address,0,'L');
-        $this->Ln();
-        //Line CP andYellow and White part
+        $this->MultiCell(70,4,$address,0,'L');
+        //Line CP Yellow and White part
+        $this->Ln(7);
         $this->SetX(36);
-        $this->MultiCell(0,12,$pc,0,'L');
+        $this->MultiCell(0,0,$pc,0,'L');
         $this->SetX(51);
-        $this->MultiCell(0,12,$city,0,'L');
+        $this->MultiCell(0,0,$city,0,'L');
         $this->SetX(122);
-        $this->MultiCell(0,10,$pc,0,'L');
+        $this->MultiCell(0,0,$pc,0,'L');
         $this->SetX(137);
-        $this->MultiCell(0,10,$city,0,'L');
-        $this->Ln();
+        $this->MultiCell(0,0,$city,0,'L');
         //Line FileNum and Type Yellow and White part
+        $this->Ln(5);
         $this->SetX(36);
-        $this->MultiCell(0,2,$fileNum,0,'L');
+        $this->MultiCell(0,0,'N: ' . $fileNum,0,'L');
+        $this->Ln(-2);
         $this->SetX(69);
-        $this->MultiCell(0,2,$type,0,'L');
+        if ($type == 'Arrete') {
+            $this->MultiCell(60,4,$type . ' ' . $idarret,0,'L');
+        }
+        else {
+            $this->MultiCell(60,4,$type,0,'L');
+        }
+        $this->Ln(-2);
         $this->SetX(122);
-        $this->MultiCell(0,0,$fileNum,0,'L');
-        $this->SetX(155);
-        $this->MultiCell(0,0,$type,0,'L');
+        $this->MultiCell(0,0,'N: ' . $fileNum,0,'L');
+        $this->Ln(-2);
+        $this->SetX(158);
+        if ($type == 'Arrete') {
+            $this->MultiCell(60,4,$type . ' ' . $idarret,0,'L');
+        }
+        else {
+            $this->MultiCell(60,4,$type,0,'L');
+        }
         //Cross Grey Part
-        $this->SetXY(101,130);
-        $this->MultiCell(0,8,'X',0,'L');
-        $this->Ln();
-        $this->SetX(101);
+        $this->SetXY(98,132);
         $this->MultiCell(0,3,'X',0,'L');
         $this->Ln();
+        $this->SetX(98);
+        $this->MultiCell(0,3,'X',0,'L');
         //Destinataire Grey Part
-        $this->SetX(55);
-        $this->MultiCell(0,8,$recipient,0,'L');
         $this->Ln();
+        $this->SetX(55);
+        $this->MultiCell(70,4,$recipient,0,'L');
         //Line Recipient_Comp Grey part
+        $this->Ln();
         $this->SetX(55);
         $this->MultiCell(0,3,$recipient_comp,0,'L');
-        $this->Ln();
         //Line Address Grey Part
+        $this->Ln(-6);
         $this->SetX(55);
-        $this->MultiCell(0,6,$address,0,'L');
-        $this->Ln(12);
+        $this->MultiCell(70,4,$address,0,'L');
         //Line CP and City Grey part
+        $this->Ln(5);
         $this->SetX(55);
-        $this->MultiCell(0,2,$pc,0,'L');
+        $this->MultiCell(0,0,$pc,0,'L');
         $this->SetX(70);
-        $this->MultiCell(0,2,$city,0,'L');
-        $this->Ln();
+        $this->MultiCell(0,0,$city,0,'L');
         //FileNum and Type Grey Part
+        $this->Ln(6);
         $this->SetX(54);
-        $this->MultiCell(0,6,$fileNum,0,'L');
+        $this->MultiCell(0,0,'N: ' . $fileNum,0,'L');
         $this->SetX(88);
-        $this->MultiCell(0,6,$type,0,'L');
-        $this->Ln(13);
+        if ($type == 'Arrete') {
+            $this->MultiCell(0, 0, $type . ' ' . $idarret, 0, 'L');
+        }
+        else {
+            $this->MultiCell(0, 0, $type, 0, 'L');
+        }
         //shipping agent Grey Part
+        $this->Ln(12);
         $this->SetX(56);
         $this->SetFont('Arial','',12);
         $this->MultiCell(0,0, 'VILLE D\'AIX EN PROVENCE',0,'L');
@@ -141,32 +171,51 @@ class PDF extends FPDF {
         $this->Ln(5);
         $this->SetX(56);
         $this->MultiCell(0,0, '13616 - Aix en Provence -  CEDEX 1',0,'L');
-        $this->Ln(40);
         //Recipient Red Part
+        $this->Ln(36.5);
         $this->SetX(56);
-        $this->MultiCell(0,0,$recipient,0,'L');
+        $this->MultiCell(70,4,$recipient,0,'L');
         $this->Ln(5);
         $this->SetX(56);
         $this->MultiCell(0,0,$recipient_comp,0,'L');
-        $this->Ln(5);
+        //Adress Red Part
+        $this->Ln(-2);
         $this->SetX(56);
-        $this->MultiCell(0,0,$address,0,'L');
-        $this->Ln(10);
-        $this->SetX(56);
-        $this->MultiCell(0,0,$pc,0,'L');
-        $this->SetX(86);
-        $this->MultiCell(0,0,$city,'L');
+        $this->MultiCell(70,4,$address,0,'L');
+        //PC and City Red Part
         $this->Ln(4);
         $this->SetX(56);
-        $this->MultiCell(0,0,$fileNum,0,'L');
-        $this->SetX(91);
-        $this->MultiCell(0,0,$type,0,'L');
-        $this->SetX(121);
-        $this->MultiCell(0,0,$instruct,0,'L');
-        $this->Ln(5);
+        $this->MultiCell(0,0,$pc,0,'L');
+        $this->SetX(70);
+        $this->MultiCell(0,0,$city,'L');
+        //FileNum Red Part
+        $this->Ln(8);
         $this->SetX(56);
+        $this->MultiCell(0,0,'N: ' . $fileNum,0,'L');
+        //Type Red Part
+        if ($type == 'Arrete'){
+            $this->Ln(-1);
+            $this->SetX(96);
+            $this->MultiCell(0, 0, $type  . ' ' . $idarret, 0, 'L');
+            $this->SetFont('Arial', 'B', 10);
+            $this->Ln(-2);
+            $this->SetX(119);
+            $this->MultiCell(0,2,'(Inst: '.$instruct.')',0,'L');
+        }
+        else {
+            $this->Ln(-2);
+            $this->SetX(89);
+            $this->SetFont('Arial', '', 10);
+            $this->MultiCell(60, 4, $type, 0, 'L');
+            $this->SetFont('Arial', 'B', 10);
+            $this->Ln(-6);
+            $this->SetX(119);
+            $this->MultiCell(0,2,'(Inst: '.$instruct.')',0,'L');
+        }
         //Shipping Red Part
-        $this->SetFont('Arial','B',12);
+        $this->SetFont('Arial','B',10);
+        $this->Ln(4);
+        $this->SetXY(56,264);
         $this->MultiCell(0,0, 'VILLE D\'AIX EN PROVENCE' ,0,'L');
         $this->Ln(5);
         $this->SetX(56);
@@ -238,6 +287,7 @@ if (isset($_POST['function'])) {
     $pdf = new PDF();
     $pdf->AliasNbPages();
     $pdf->AddPage('P','A4',0);
+    //$pdf->Image('img/recom-page-001.jpg', 0, 0, 217, 298);
 
     $function = $_POST['function'];
     $params = $_POST['params'];
