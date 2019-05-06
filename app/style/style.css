@@ -3,7 +3,7 @@
 \**********************************************************************************************************************/
 
 html {
-    padding: 5% 10% 5% 10%;
+    padding: 1% 10% 1% 10%;
     margin: 0;
     background: darkcyan;
 }
@@ -57,7 +57,7 @@ input {
     text-align: center;
     color: transparent;
     text-shadow: 0 0 0 black;
-    width: 40px;
+    width: 50px;
 }
 
 input:focus {
@@ -66,7 +66,7 @@ input:focus {
 }
 
 input, select, button {
-    height: 20px;
+    height: 25px;
 }
 
 input#file_fifth_char, input#file_status, input#search_file_fifth_char, input#search_file_status {
@@ -85,22 +85,27 @@ input#file_date, input#search_file_date {
 |                                                     Tables                                                           |
 \**********************************************************************************************************************/
 
-table, th, td {
-    text-align : center;
-}
-
 table {
-    table-layout: fixed ;
+    table-layout: fixed;
+    text-align : center;
     width: 100% ;
 }
 
-td {
-    width: 25% ;
+thead, tbody {
+    width: 100%;
+}
+
+th, td {
+    width: 278px;
 }
 
 /**********************************************************************************************************************\
 |                                                  Registered List                                                     |
 \**********************************************************************************************************************/
+
+body fieldset:last-child {
+    margin-right: 30px;
+}
 
 #registered_list table {
     border-collapse: collapse;
@@ -110,10 +115,33 @@ td {
     border: 1px solid darkgray;
 }
 
-#registered_list tr {
-    height: 4em;
+#registered_list table thead {
+    display: inline-table;
 }
 
-#registered_list tr:first-child {
+#registered_list table tbody
+{
+    display: block;
+    overflow-y: scroll;
+}
+
+#registered_list table tbody {
+    height: 17.5em;
+}
+
+#registered_list tr {
+    height: 3.5em;
+}
+
+#registered_list thead tr:first-child {
     height: 2em;
+}
+
+#registered_list tr.clicked {
+    background: darkcyan;
+    color: white;
+}
+
+#registered_list_tab {
+    width: 100%;
 }

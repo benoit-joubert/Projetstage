@@ -10,6 +10,7 @@
         newCompletionForm();
         newSearchFields();
         newRegisteredList();
+        newPrintButtons();
     });
 }) ();
 
@@ -25,10 +26,8 @@ function isJSON(obj) {
 
 function convertToId(string) {
 
-    console.log(string)
     string = string.replace(/ /g, '_');
     string = string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    string = string.toLowerCase();
     return string;
 }
 
@@ -127,7 +126,6 @@ function fillSelectScript(currentSelect, datalist) {
         return false;
 
     jQuery.each(datalist, function () {
-
         $(currentSelect)
             .append($('<option/>')
                 .attr({
@@ -176,8 +174,11 @@ function initializeInputScript(currentInput, maxLength, defaultValue, positionLe
             'maxlength' : maxLength,
             'value' : defaultValue,
             'onKeyUp' : 'addChar(event, this, ' + maxLength + ', [' + positionLetters + '], [' + positionNumbers + '])',
-            'onKeyDown' : 'preventBackSpace()',
+            'onKeyDown' : 'preventBackSpace(event)',
             'required' : ''
+        })
+        .bind('mouseup', function() {
+            this.selectionStart = this.selectionEnd;
         });
 }
 
@@ -247,7 +248,7 @@ function createCompletionForm() {
         'Date' :
             $('<input/>').attr({'id' : 'file_date', 'type' : 'date', 'required' : ''}).val(new Date().toDateInputValue()),
         '' :
-            $('<button/>').attr({'type' : 'submit'}).html('Ajouter')
+            $('<button/>').attr({'id' : 'file_button', 'type' : 'submit'}).html('Ajouter')
     };
 
     let myForm =
@@ -257,14 +258,14 @@ function createCompletionForm() {
             )
             .append($('<table/>')
                 .append($('<tr/>')
-                        .attr({
-                            'id' : 'labels'
-                        })
+                    .attr({
+                        'id' : 'labels'
+                    })
                 )
                 .append($('<tr/>')
-                        .attr({
-                            'id' : 'contents'
-                        })
+                    .attr({
+                        'id' : 'contents'
+                    })
                 )
             );
 
@@ -292,6 +293,7 @@ function newSearchFields() {
     createSearchFields();
     fillAllSearchSelects();
     initializeAllSearchInputs();
+    initializeAllButtons();
 }
 
 /***********************************************************************************************************************
@@ -309,11 +311,69 @@ function fillAllSearchSelects() {
  *                                      Search Fields - Input Management Functions                                     *
  **********************************************************************************************************************/
 
+function searchPerDate() {
+    $.ajax({
+        url: 'Connexion.php',
+        type: 'POST',
+        data: {
+            function: 'getElements',
+            params: {
+                param1: "array('TYPE_ENVOI', 'DOSSIER', 'DEMANDEUR', 'CIVILITE_DEMANDEUR', 'ADRESSE', 'CODE_POSTAL', 'VILLE', 'INSTRUCT', 'DATE_CREATION')",
+                param2: "array('T_COMPLETE')",
+                param3: "array('TO_DATE(\\\'" + getFileDate('search') + "\\\', \\\'YYYY-MM-DD\\\') = DATE_CREATION')"
+            }
+        },
+        success: function (data) {
+            typeTab = 'recherche';
+            registeredList = JSON.parse(data);
+            nbElements = 0;
+            fillRegisteredList();
+        }
+    });
+}
+
+function initializeDateInputScript(currentInputDate) {
+    currentInputDate
+        .click(function () {searchPerDate();})
+        .change(function () {searchPerDate();})
+}
+
 function initializeAllSearchInputs() {
 
     initializeInputScript($('#search_file_fifth_char'), 1, 'J',[0],[0]);
     initializeInputScript($('#search_file_id'), 4, '****',[],[0, 1, 2, 3]);
     initializeInputScript($('#search_file_status'), 1, 'I',[0],[0]);
+    initializeDateInputScript($('#search_file_date'));
+}
+
+/***********************************************************************************************************************
+ *                                          Button Management Functions                                                *
+ **********************************************************************************************************************/
+
+function getFileNumber(prefix) {
+
+    if (prefix === 'search') prefix+= '_';
+    let fileNumber =
+        $('#' + prefix + 'file_type').val() +
+        $('#' + prefix + 'file_year').val() +
+        $('#' + prefix + 'file_fifth_char').val() +
+        $('#' + prefix + 'file_id').val() +
+        $('#' + prefix + 'file_status').val();
+    fileNumber = fileNumber.toUpperCase();
+
+    if (!fileNumber.match(/[A-Z]{2}[0-9]{2}[A-Z0-9][0-9]{4}[A-Z0-9]/)) return false;
+    return fileNumber;
+}
+
+function getFileRemark() {
+
+    return $('#file_remarks').val();
+}
+
+function getFileDate(prefix) {
+
+    if (prefix === 'search') prefix+= '_';
+    return $('#' + prefix + 'file_date').val();
 }
 
 /***********************************************************************************************************************
@@ -329,12 +389,11 @@ function createSearchFields() {
                 .append($('<select/>').attr({'id' : 'search_file_year'}))
                 .append($('<input/>').attr({'id' : 'search_file_fifth_char'}))
                 .append($('<input/>').attr({'id' : 'search_file_id'}))
-                .append($('<input/>').attr({'id' : 'search_file_status'})),
+                .append($('<input/>').attr({'id' : 'search_file_status'}))
+                .append($('<button/>').attr({'id' : 'search_file_button', 'type' : 'submit'}).html('Rechercher')),
 
         'Date' :
             $('<input/>').attr({'id' : 'search_file_date', 'type' : 'date', 'required' : ''}).val(new Date().toDateInputValue()),
-        '' :
-            $('<button/>').attr({'type' : 'submit'}).html('Rechercher')
     };
 
     let myForm =
@@ -378,6 +437,7 @@ function newRegisteredList() {
 
     createRegisteredList();
     fillRegisteredList();
+    clickHandler();
 }
 
 /***********************************************************************************************************************
@@ -386,26 +446,270 @@ function newRegisteredList() {
 
 function fillRegisteredList() {
 
-    for (let registered in registeredList) {
-        $('#registered_list table')
-            .append($('<tr/>')
-                .append($('<td/>')
-                    .html(registeredList[registered]['TYPE_ENVOI'])
-                )
-                .append($('<td/>')
-                    .html(registeredList[registered]['DOSSIER'])
-                )
-                .append($('<td/>')
-                    .html(registeredList[registered]['DEMANDEUR'])
-                )
-                .append($('<td/>')
-                    .html(registeredList[registered]['ADRESSE_1']
-                        + (registeredList[registered]['ADRESSE_2'] !== undefined ? '<br/>' + registeredList[registered]['ADRESSE_2'] : '')
-                        + (registeredList[registered]['ADRESSE_3'] !== undefined ? '<br/>' + registeredList[registered]['ADRESSE_3'] : '')
+    let count = 0;
+    clear();
+    $('#registered_list table tbody tr:empty')
+        .each(function () {
+                if (registeredList[count] != null) {
+                    $(this)
+                        .append($('<td/>')
+                            .html(registeredList[count]['TYPE_ENVOI'])
+                        )
+                        .append($('<td/>')
+                            .html(registeredList[count]['DOSSIER'])
+                        )
+                        .append($('<td/>')
+                            .html(registeredList[count]['DEMANDEUR'])
+                        )
+                        .append($('<td/>')
+                            .html(registeredList[count]['ADRESSE'] + ' ' + registeredList[count]['CODE_POSTAL'] + ' ' + registeredList[count]['VILLE'])
+                        );
+                    ++count
+                }
+            }
+        );
+
+    if (registeredList.length > count){
+        for (count; count < registeredList.length; ++count) {
+            $('#registered_list table tbody')
+                .append($('<tr/>')
+                    .append($('<td/>')
+                        .html(registeredList[count]['TYPE_ENVOI'])
                     )
-                )
-            );
+                    .append($('<td/>')
+                        .html(registeredList[count]['DOSSIER'])
+                    )
+                    .append($('<td/>')
+                        .html(registeredList[count]['DEMANDEUR'])
+                    )
+                    .append($('<td/>')
+                        .html(registeredList[count]['ADRESSE'] + ' ' + registeredList[count]['CODE_POSTAL'] + ' ' + registeredList[count]['VILLE'])
+                    )
+                );
+        }
     }
+    clickHandler();
+}
+
+function clear() {
+    $('#registered_list table tbody')
+        .html('')
+        .append($('<tr/>'))
+        .append($('<tr/>'))
+        .append($('<tr/>'))
+        .append($('<tr/>'))
+        .append($('<tr/>'));
+    clickHandler();
+}
+
+function clickHandler() {
+    $('table tbody tr:not(:empty)').click(function () {
+        $('tr').removeClass('clicked');
+        $(this).addClass('clicked');
+        clickedFile = $(this);
+    });
+}
+
+/***********************************************************************************************************************
+ *                                              Button Initialization                                                  *
+ **********************************************************************************************************************/
+
+function initializeButtonScript(currentButton, type) {
+
+    if (!$(currentButton).is('button')) return false;
+
+    if (type === '') {
+        $(currentButton)
+            .on('click', function () {
+                if (getFileNumber(type) === false) return false;
+
+                $.ajax({
+                    url: 'Connexion.php',
+                    type: 'POST',
+                    data: {
+                        function: 'getElements',
+                        params: {
+                            param1: "array('COUNT(*)')",
+                            param2: "array('T_COMPLETE')",
+                            param3: "array('\\\'" + getFileNumber(type) + "\\\' = DOSSIER')"
+                        }
+                    },
+                    success: function (data) {
+                        let resultTuples = JSON.parse(data);
+                        if (resultTuples[0]['COUNT(*)'] > 0) return false;
+
+                        let fileNumber = getFileNumber(type).substring(0, 2) + '13001' + getFileNumber(type).substring(2);
+
+                        $.ajax({
+                            url: 'Connexion.php',
+                            type: 'POST',
+                            data: {
+                                function: 'getElements',
+                                params: {
+                                    param1: "array('NUMCOM', 'DEMANDEUR', 'DPM_NOM', 'DPM_PRENOM', 'DPM_REP_ME', " +
+                                        "'DPM_REP_MR', 'DADR_NUMRUE', 'DADR_NOMRUE', 'DADR_CP', 'DADR_LOCALITE', " +
+                                        "'INSTRUCT', 'DADR_LIEUDIT')",
+                                    param2: "array('URBANISME.GPC_ENTDOS')",
+                                    param3: "array('\\\'" + fileNumber + "\\\' = TYPDOS || NUMDEP || NUMCOM || NUMDOS || PCMODI AND ROWNUM <= 1')"
+                                }
+                            },
+                            success: function (data) {
+
+                                let resultTuples = JSON.parse(data);
+                                if (resultTuples.length === 0) return false;
+
+                                let jsonInsert = {
+                                    NUMERO_ENVOI : null,
+                                    DOSSIER : getFileNumber(type),
+                                    COMMUNE : resultTuples[0]['NUMCOM'],
+                                    DEMANDEUR : (
+                                        (resultTuples[0]['DEMANDEUR'].replace('/ /g', '') !== '')
+                                            ? resultTuples[0]['DEMANDEUR']
+                                            : 'Demandeur inconnu'
+                                    ),
+                                    DEMANDEUR_COMP : (
+                                        (resultTuples[0]['DPM_NOM'] !== '')
+                                            ? (resultTuples[0]['DPM_NOM'] +
+                                                ((resultTuples[0]['DPM_PRENOM'] !== '')
+                                                        ? ' ' + resultTuples[0]['DPM_PRENOM']
+                                                        : ''
+                                                )
+                                            )
+                                            : (
+                                                (resultTuples[0]['DPM_PRENOM'] !== '')
+                                                    ? resultTuples[0]['DPM_PRENOM']
+                                                    : null
+                                            )
+                                    ),
+                                    CIVILITE_DEMANDEUR : (
+                                        (resultTuples[0]['DPM_REP_MR'] === 1)
+                                            ? ('Mr' + (
+                                                    (resultTuples[0]['DPM_REP_ME'] === 1)
+                                                        ? '-Mme'
+                                                        : ''
+                                                )
+                                            )
+                                            : (
+                                                (resultTuples[0]['DPM_REP_ME'] === 1)
+                                                    ? 'Mme'
+                                                    : null
+                                            )
+                                    ),
+                                    ADRESSE : (
+                                        (resultTuples[0]['DADR_NOMRUE'] !== '')
+                                            ? (
+                                                (resultTuples[0]['DADR_NUMRUE'] !== '')
+                                                    ? resultTuples[0]['DADR_NUMRUE'] + ' ' + resultTuples[0]['DADR_NOMRUE']
+                                                    : resultTuples[0]['DADR_NOMRUE']
+                                            )
+                                            : 'Adresse inconnue'
+                                    ),
+                                    CODE_POSTAL : (
+                                        (resultTuples[0]['DADR_CP'] !== '')
+                                            ? resultTuples[0]['DADR_CP']
+                                            : '13100'
+                                    ),
+                                    VILLE : (
+                                        (resultTuples[0]['DADR_LOCALITE'].replace(/ /g, '') !== '')
+                                            ? resultTuples[0]['DADR_LOCALITE']
+                                            : 'Aix-en-Provence'
+                                    ),
+                                    TYPE_ENVOI : getFileRemark(),
+                                    INSTRUCT : (
+                                        (resultTuples[0]['INSTRUCT'] !== '')
+                                            ? resultTuples[0]['INSTRUCT']
+                                            : null
+                                    ),
+                                    LIEU_DIT : (
+                                        (resultTuples[0]['DADR_LIEUDIT'] !== '')
+                                            ? resultTuples[0]['DADR_LIEUDIT']
+                                            : null
+                                    ),
+                                    DATE_CREATION : getFileDate('')
+                                };
+
+                                $.ajax({
+                                    url: 'Connexion.php',
+                                    type: 'POST',
+                                    data: {
+                                        function: 'addElement',
+                                        params: {
+                                            param1: "array('T_COMPLETE')",
+                                            param2: "array('NUMERO_ENVOI', 'DOSSIER', 'COMMUNE', 'DEMANDEUR', " +
+                                                "'DEMANDEUR_COMP', 'CIVILITE_DEMANDEUR', 'ADRESSE', 'CODE_POSTAL', " +
+                                                "'VILLE', 'TYPE_ENVOI', 'INSTRUCT', 'LIEU_DIT', 'DATE_CREATION')",
+                                            param3: "array('" + jsonInsert.NUMERO_ENVOI + "', " +
+                                                "'\\\'" + jsonInsert.DOSSIER + "\\\'', " +
+                                                "'\\\'" + jsonInsert.COMMUNE + "\\\'', " +
+                                                "'\\\'" + jsonInsert.DEMANDEUR + "\\\'', " +
+                                                ((jsonInsert.DEMANDEUR_COMP != null) ? "'\\\'" + jsonInsert.DEMANDEUR_COMP + "\\\'', " : "'null', ") +
+                                                ((jsonInsert.CIVILITE_DEMANDEUR != null) ? "'\\\'" + jsonInsert.CIVILITE_DEMANDEUR + "\\\'', " : "'null', ") +
+                                                "'\\\'" + jsonInsert.ADRESSE + "\\\'', " +
+                                                "'" + jsonInsert.CODE_POSTAL + "', " +
+                                                "'\\\'" + jsonInsert.VILLE + "\\\'', " +
+                                                "'\\\'" + jsonInsert.TYPE_ENVOI + "\\\'', " +
+                                                ((jsonInsert.INSTRUCT != null) ? "'\\\'" + jsonInsert.INSTRUCT + "\\\'', " : "'null', ") +
+                                                ((jsonInsert.LIEU_DIT != null) ? "'\\\'" + jsonInsert.LIEU_DIT + "\\\'', " : "'null', ") +
+                                                "'TO_DATE(\\\'" + jsonInsert.DATE_CREATION + "\\\', \\\'YYYY-MM-DD\\\')')"
+                                        },
+                                        success: function () {
+                                            if (typeTab === 'recherche') {
+                                                registeredList = [];
+                                                typeTab = 'ajout';
+                                            }
+                                            registeredList[nbElements] = {
+                                                TYPE_ENVOI : jsonInsert.TYPE_ENVOI,
+                                                DOSSIER : jsonInsert.DOSSIER,
+                                                DEMANDEUR : jsonInsert.DEMANDEUR,
+                                                CIVILITE_DEMANDEUR : jsonInsert.CIVILITE_DEMANDEUR,
+                                                ADRESSE : jsonInsert.ADRESSE,
+                                                CODE_POSTAL : jsonInsert.CODE_POSTAL,
+                                                VILLE : jsonInsert.VILLE,
+                                                INSTRUCT : jsonInsert.INSTRUCT,
+                                                DATE_CREATION : jsonInsert.DATE_CREATION
+                                            };
+                                            ++nbElements;
+                                            fillRegisteredList();
+                                        }
+                                    }
+                                })
+                            }
+                        })
+                    }
+                });
+            })
+    }
+    else if (type === 'search') {
+        $(currentButton)
+            .on('click', function () {
+                if (getFileNumber(type) === false) return false;
+
+                $.ajax({
+                    url: 'Connexion.php',
+                    type: 'POST',
+                    data: {
+                        function: 'getElements',
+                        params: {
+                            param1: "array('TYPE_ENVOI', 'DOSSIER', 'DEMANDEUR', 'CIVILITE_DEMANDEUR', 'ADRESSE', 'CODE_POSTAL', 'VILLE', 'INSTRUCT', 'DATE_CREATION')",
+                            param2: "array('T_COMPLETE')",
+                            param3: "array('\\\'" + getFileNumber(type) + "\\\' = DOSSIER')"
+                        }
+                    },
+                    success: function (data) {
+                        typeTab = 'recherche';
+                        registeredList = JSON.parse(data);
+                        nbElements = 0;
+                        fillRegisteredList();
+                    }
+                })
+            });
+    }
+}
+
+function initializeAllButtons() {
+
+    initializeButtonScript($('#file_button'), '');
+    initializeButtonScript($('#search_file_button'), 'search');
 }
 
 /***********************************************************************************************************************
@@ -423,17 +727,125 @@ function createRegisteredList() {
                 .attr({
                     'id' : 'registered_list_tab'
                 })
-                .append($('<tr/>')
-                    .attr({
-                        'id' : 'labels'
-                    })
-                    .append($('<th/>').html('Type'))
-                    .append($('<th/>').html('Description'))
-                    .append($('<th/>').html('Demandeur'))
-                    .append($('<th/>').html('Adresse'))
+                .append($('<thead/>')
+                    .append($('<tr/>')
+                        .attr({
+                            'id' : 'labels'
+                        })
+                        .append($('<th/>').html('Type'))
+                        .append($('<th/>').html('Description'))
+                        .append($('<th/>').html('Demandeur'))
+                        .append($('<th/>').html('Adresse'))
+                    )
+                )
+                .append($('<tbody/>')
+                    .append($('<tr/>'))
+                    .append($('<tr/>'))
+                    .append($('<tr/>'))
+                    .append($('<tr/>'))
+                    .append($('<tr/>'))
                 )
             );
 
     $('#registered_list')
         .append(myList);
+}
+
+/***********************************************************************************************************************
+ *                                          Print Button - Main Function                                            *
+ **********************************************************************************************************************/
+
+function newPrintButtons() {
+
+    createPrintButtons();
+    initializePrintButtons();
+}
+
+/***********************************************************************************************************************
+ *                                           Print Button Management Functions                                         *
+ **********************************************************************************************************************/
+
+function initializePrintButtons() {
+
+    $('#registered_list_print').click(function () {
+        $.ajax({
+            url: 'PDF.php',
+            type: 'POST',
+            data: {
+                function: 'body',
+                params: {
+                    param1: "'" + JSON.stringify(registeredList).replace(/'/g, '\\\'')+ "'",
+                }
+            },
+            success: function (data) {
+                let win = window.open('', '_blank');
+                win.location.href = data;
+            }
+        });
+    });
+
+    $('#registered_print').click(function () {
+        if (clickedFile == null) return false;
+
+        let registeredListTemp = [];
+        registeredListTemp.push(registeredList[clickedFile.index()]);
+        $.ajax({
+            url: 'PDF.php',
+            type: 'POST',
+            data: {
+                function: 'bodyRegistered',
+                params: {
+                    param1: "'" + JSON.stringify(registeredListTemp).replace(/'/g, '\\\'')+ "'",
+                }
+            },
+            success: function(data) {
+                $.ajax({
+                    url: 'Connexion.php',
+                    type: 'POST',
+                    data: {
+                        function: 'updateElement',
+                        params: {
+                            param1: "'T_COMPLETE'",
+                            param2: "'NUMERO_ENVOI'",
+                            param3: "'(SELECT MAX(NUMERO_ENVOI) + 1 FROM T_COMPLETE)'",
+                            param4: "'DOSSIER = \\\'" + registeredListTemp[0].DOSSIER + "\\\''",
+                        },
+                    }
+                });
+                let win = window.open('', '_blank');
+                win.location.href = data;
+            }
+        });
+    });
+}
+
+/***********************************************************************************************************************
+ *                                           Print Button Initialization                                               *
+ **********************************************************************************************************************/
+
+function createPrintButtons() {
+
+    let myButtons =
+        $('<div/>')
+            .append($('<span/>')
+                .html('Recommandé')
+            )
+            .append($('<button/>')
+                .attr({
+                    'id' : 'registered_print'
+                })
+                .html('<i class="fas fa-print"></i>')
+            )
+            .append($('<span/>')
+                .html('Liste des recommandés')
+            )
+            .append($('<button/>')
+                .attr({
+                    'id' : 'registered_list_print'
+                })
+                .html('<i class="fas fa-print"></i>')
+            );
+
+    $('body')
+        .append(myButtons);
 }
