@@ -520,7 +520,6 @@ function clickHandler() {
             $(this).addClass('clicked');
             clickedFile = $(this);
         }
-        console.log(clickedFile);
     });
 }
 
