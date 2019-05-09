@@ -43,18 +43,26 @@ class PDF extends FPDF {
     function bodyRegistered($json) {
 
         $json = json_decode($json);
+        $cpt = 1;
         $db = oci_connect('GEOPC_RECOMMANDEES','test','sdiadem-cluster.intranet/SIGTEST');
-        foreach ($json as $registered){
-            $sql = 'SELECT ID_ARRETE FROM T_COMPLETE WHERE DOSSIER = \'' . $registered->DOSSIER . '\'';
-            $stid = oci_parse($db, $sql);
-            oci_execute($stid);
-            $numero = '';
-            while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
-                foreach ($row as $item) {
-                    $numero = $item;
+        foreach ($json as $array) {
+            $nbe = count($array, COUNT_RECURSIVE);
+            foreach ($array as $registered) {
+                $sql = 'SELECT ID_ARRETE FROM T_COMPLETE WHERE DOSSIER = \'' . $registered->DOSSIER . '\'';
+                $stid = oci_parse($db, $sql);
+                oci_execute($stid);
+                $numero = '';
+                while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+                    foreach ($row as $item) {
+                        $numero = $item;
+                    }
+                }
+                $this->fillBodyRegistered($registered->DEMANDEUR, '', $registered->ADRESSE, $registered->CODE_POSTAL, $registered->VILLE, $registered->DOSSIER, $registered->TYPE_ENVOI, $registered->INSTRUCT, $numero);
+                if($cpt != $nbe) {
+                    $this->AddPage('P', 'A4', 0);
+                    $cpt += 1;
                 }
             }
-            $this->fillBodyRegistered($registered->DEMANDEUR, '', $registered->ADRESSE, $registered->CODE_POSTAL, $registered->VILLE, $registered->DOSSIER, $registered->TYPE_ENVOI, $registered->INSTRUCT,$numero);
         }
     }
 
