@@ -492,6 +492,7 @@ function fillRegisteredList() {
 }
 
 function clear() {
+
     $('#registered_list table tbody')
         .html('')
         .append($('<tr/>'))
@@ -503,10 +504,23 @@ function clear() {
 }
 
 function clickHandler() {
+
     $('table tbody tr:not(:empty)').click(function () {
         $('tr').removeClass('clicked');
-        $(this).addClass('clicked');
-        clickedFile = $(this);
+        if (clickedFile !== undefined) {
+            if (clickedFile.index() !== $(this).index()) {
+                $(this).addClass('clicked');
+                clickedFile = $(this);
+            }
+            else {
+                clickedFile = undefined;
+            }
+        }
+        else {
+            $(this).addClass('clicked');
+            clickedFile = $(this);
+        }
+        console.log(clickedFile);
     });
 }
 
