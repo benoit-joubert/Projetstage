@@ -824,8 +824,8 @@ function initializePrintButtons() {
                         params: {
                             param1: "'T_COMPLETE'",
                             param2: "'NUMERO_ENVOI'",
-                            param3: "'(SELECT MAX(NUMERO_ENVOI) FROM T_COMPLETE)'",
-                            param4: "'DOSSIER = \\\'" + registeredListTemp[0].DOSSIER + "\\\''",
+                            param3: "'(SELECT MAX(NUMERO_ENVOI) + 1 FROM T_COMPLETE)'",
+                            param4: "'" + JSON.stringify(registeredListTemp).replace(/'/g, '\\\'')+ "'",
                         },
                     }
                 });

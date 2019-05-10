@@ -40,15 +40,33 @@ class PDF extends FPDF {
         $this->Cell(67,8,'Date','TB',0,'R');
     }
 
-    function bodyRegistered($json) {
+    function bodyRegistered($json)
+    {
 
         $json = json_decode($json);
-        $cpt = 1;
-        $db = oci_connect('GEOPC_RECOMMANDEES','test','sdiadem-cluster.intranet/SIGTEST');
+        $cpt = 2;
+        $db = oci_connect('GEOPC_RECOMMANDEES', 'test', 'sdiadem-cluster.intranet/SIGTEST');
         foreach ($json as $array) {
-            $nbe = count($array, COUNT_RECURSIVE);
-            foreach ($array as $registered) {
-                $sql = 'SELECT ID_ARRETE FROM T_COMPLETE WHERE DOSSIER = \'' . $registered->DOSSIER . '\'';
+            $nbe = count($json, COUNT_RECURSIVE);
+            if ($nbe > 1) {
+                foreach ($array as $registered) {
+                    $sql = 'SELECT ID_ARRETE FROM T_COMPLETE WHERE DOSSIER = \'' . $registered->DOSSIER . '\'';
+                    $stid = oci_parse($db, $sql);
+                    oci_execute($stid);
+                    $numero = '';
+                    while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
+                        foreach ($row as $item) {
+                            $numero = $item;
+                        }
+                    }
+                    $this->fillBodyRegistered($registered->DEMANDEUR, '', $registered->ADRESSE, $registered->CODE_POSTAL, $registered->VILLE, $registered->DOSSIER, $registered->TYPE_ENVOI, $registered->INSTRUCT, $numero);
+                    if ($cpt != $nbe) {
+                        $this->AddPage('P', 'A4', 0);
+                        $cpt += 1;
+                    }
+                }
+            } else {
+                $sql = 'SELECT ID_ARRETE FROM T_COMPLETE WHERE DOSSIER = \'' . $array->DOSSIER . '\'';
                 $stid = oci_parse($db, $sql);
                 oci_execute($stid);
                 $numero = '';
@@ -57,14 +75,10 @@ class PDF extends FPDF {
                         $numero = $item;
                     }
                 }
-                $this->fillBodyRegistered($registered->DEMANDEUR, '', $registered->ADRESSE, $registered->CODE_POSTAL, $registered->VILLE, $registered->DOSSIER, $registered->TYPE_ENVOI, $registered->INSTRUCT, $numero);
-                if($cpt != $nbe) {
-                    $this->AddPage('P', 'A4', 0);
-                    $cpt += 1;
+                $this->fillBodyRegistered($array->DEMANDEUR, '', $array->ADRESSE, $array->CODE_POSTAL, $array->VILLE, $array->DOSSIER, $array->TYPE_ENVOI, $array->INSTRUCT, $numero);
                 }
             }
         }
-    }
 
     function fillBodyRegistered($recipient, $recipient_comp, $address, $pc, $city, $fileNum, $type, $instruct, $idarret){
 
@@ -295,7 +309,6 @@ if (isset($_POST['function'])) {
     $pdf = new PDF();
     $pdf->AliasNbPages();
     $pdf->AddPage('P','A4',0);
-    //$pdf->Image('img/recom-page-001.jpg', 0, 0, 217, 298);
 
     $function = $_POST['function'];
     $params = $_POST['params'];

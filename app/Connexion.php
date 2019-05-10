@@ -145,9 +145,28 @@ class Connexion {
         oci_execute($stid);
     }
 
-    public function updateElement($from, $element, $updatedElement, $where) {
+    public function updateElement($from, $element, $updatedElement, $json) {
 
-        $stid = oci_parse($this->connected,$this->sqlRequestUpdate($from, $element, $updatedElement, $where));
-        oci_execute($stid);
+        $json = json_decode($json);
+        $cpt = 0;
+        foreach ($json as $array){
+            $nbe = count($json,COUNT_RECURSIVE);
+            if ($nbe > 1) {
+                foreach ($array as $filenum) {
+                    if ($cpt > 0) {
+                        $updatedElement = '(SELECT MAX(NUMERO_ENVOI) FROM T_COMPLETE)';
+                    }
+                    $where = 'DOSSIER = \'' . $filenum->DOSSIER . '\'';
+                    $stid = oci_parse($this->connected, $this->sqlRequestUpdate($from, $element, $updatedElement, $where));
+                    oci_execute($stid);
+                    ++$cpt;
+                }
+            }
+            else {
+                $where = 'DOSSIER = \'' . $array->DOSSIER . '\'' ;
+                $stid = oci_parse($this->connected,$this->sqlRequestUpdate($from, $element, $updatedElement, $where));
+                oci_execute($stid);
+            }
+        }
     }
 }
