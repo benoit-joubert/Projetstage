@@ -1,0 +1,381 @@
+.ColonneSeparateur
+{
+	text-align:center;
+	font-family:Arial;
+	font-size:8pt;
+	background-color:#CCCCCC;
+}
+	FORM{FONT-FAMILY:verdana;FONT-SIZE:8pt}
+
+table tr th
+{
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    background: #EEEEEE url("./gradient.php?base=CCCCCC&height=30") repeat-x;
+    border: 1px solid black;
+}
+
+table.tableau
+{
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+tr.v0 td,
+tr.v1 td,
+tr.v2 td
+{
+    border: 1px solid black;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+tr.v0
+{
+    background-color: #FFFFFF;
+}
+
+tr.v1
+{
+    background-color: #FBF5BC;
+}
+
+tr.v2
+{
+    background-color: #FFFFFF;
+    font-weight: bold;
+}
+
+tr.warning
+{
+    font-size: 14px;
+    background-color: #FFFFFF;
+    color: red;
+}
+
+option.v0
+{
+    background-color: #FFFFFF;
+}
+
+option.v1
+{
+    background-color: #FBF5BC;
+}
+
+.icon-32-cancel {
+  background-position:0px 0px !important;
+  background-repeat:no-repeat no-repeat;
+  display:inline-block;
+  width:14px;
+  height:14px;
+  line-height:0px !important;
+  margin-top:1px;
+  vertical-align:text-top;
+}
+
+/* ARROW ICON
+ ---------------------------------------------------------------------------- */
+[class^="arrowicon-"] {
+ display: inline-block;
+ width: 16px;
+ height: 16px;
+ line-height: 16px;
+ vertical-align: text-top;
+ background-image: url('./images/arrows.png');
+ background-position: 16px 16px;
+ background-repeat: no-repeat;
+ *margin-right: .3em;
+}
+
+[class^="arrowicon-"]:last-child,
+[class^=" arrowicon-"]:last-child {
+*margin-left: 0;
+}
+
+.arrowicon-l-black {
+  background-position: 0px 0px;
+}
+
+.arrowicon-r-black {
+  background-position: 0px -18px;
+}
+
+.arrowicon-l-grey {
+  background-position: 0px -36px;
+}
+
+.arrowicon-r-grey {
+  background-position: 0px -54px;
+}
+
+.arrowicon-l-transp {
+  background-position: 0px -72px;
+}
+
+.arrowicon-r-transp {
+  background-position: 0px -90px;
+}
+
+.arrowicon-l-blue {
+  background-position: 0px -108px;
+}
+
+.arrowicon-r-blue {
+  background-position: 0px -126px;
+}
+
+.arrowicon-d-black {
+  background-position: 0px -144px;
+}
+
+.arrowicon-t-black {
+  background-position: 0px -162px;
+}
+
+.arrowicon-d-grey {
+  background-position: 0px -180px;
+}
+
+.arrowicon-t-grey {
+  background-position: 0px -198px;
+}
+
+.arrowicon-d-transp {
+  background-position: 0px -216px;
+}
+
+.arrowicon-t-transp {
+  background-position: 0px -234px;
+}
+
+.arrowicon-d-blue {
+  background-position: 0px -252px;
+}
+
+.arrowicon-t-blue {
+  background-position: 0px -270px;
+}
+
+
+
+/***** INPUT ******/
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  border: 1px solid;
+  border-color: #a8abba #b5b7c5 #c5c7d2;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+  -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+  -o-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+  background-color: #fff !important;
+  background-image: none !important;
+}
+
+.well-black select,
+.well-black textarea,
+.well-black input[type="text"],
+.well-black input[type="password"],
+.well-black input[type="datetime"],
+.well-black input[type="datetime-local"],
+.well-black input[type="date"],
+.well-black input[type="month"],
+.well-black input[type="time"],
+.well-black input[type="week"],
+.well-black input[type="number"],
+.well-black input[type="email"],
+.well-black input[type="url"],
+.well-black input[type="search"],
+.well-black input[type="tel"],
+.well-black input[type="color"],
+.well-black .uneditable-input {
+  color: #f1f1f1;
+  background-color: #313538;
+  border-color: #272727 #252525 #222222;
+  -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+  -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+  -o-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+}
+
+input[disabled],
+select[disabled],
+textarea[disabled],
+input[readonly],
+select[readonly],
+textarea[readonly] {
+  cursor: not-allowed;
+  background-color: #eee;
+  border: 1px solid #c5c7d2;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  -o-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
+.input-append input,
+.input-prepend input,
+.input-append select,
+.input-prepend select,
+.input-append .uneditable-input,
+.input-prepend .uneditable-input {
+  position: relative;
+  margin-bottom: 0;
+*margin-left: 0;
+  vertical-align: top;
+  -webkit-border-radius: 0 3px 3px 0;
+  -moz-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
+}
+
+.input-append .btn,
+.input-prepend .btn {
+  border-color: #a8abba #b5b7c5 #c5c7d2;
+  border-color: rgba(0, 0, 0, 0.30) rgba(0, 0, 0, 0.25) rgba(0, 0, 0, 0.20);
+}
+
+.input-append input:focus,
+.input-prepend input:focus,
+.input-append select:focus,
+.input-prepend select:focus,
+.input-append .uneditable-input:focus,
+.input-prepend .uneditable-input:focus {
+  z-index: 2;
+}
+
+.input-append .add-on,
+.input-prepend .add-on {
+  display: inline-block;
+  width: auto;
+  height: 20px;
+  min-width: 16px;
+  padding: 4px 5px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 20px;
+  text-align: center;
+  text-shadow: 0 1px 0 #fff;
+  background-color: #eee;
+  border: 1px solid #ccc;
+}
+
+.input-append .add-on,
+.input-prepend .add-on,
+.input-append .btn,
+.input-prepend .btn {
+  vertical-align: top;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+
+.input-append .active,
+.input-prepend .active {
+  background-color: #a9dba9;
+  border-color: #46a546;
+}
+
+.input-prepend .add-on,
+.input-prepend .btn {
+  margin-right: -1px;
+}
+
+.input-prepend .add-on:first-child,
+.input-prepend .btn:first-child {
+  -webkit-border-radius: 3px 0 0 3px;
+  -moz-border-radius: 3px 0 0 3px;
+  border-radius: 3px 0 0 3px;
+}
+
+.input-append input,
+.input-append select,
+.input-append .uneditable-input {
+  -webkit-border-radius: 3px 0 0 3px;
+  -moz-border-radius: 3px 0 0 3px;
+  border-radius: 3px 0 0 3px;
+}
+
+.input-append .add-on,
+.input-append .btn {
+  margin-left: -1px;
+}
+
+.input-append .add-on:last-child,
+.input-append .btn:last-child {
+  -webkit-border-radius: 0 3px 3px 0;
+  -moz-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
+}
+
+.input-prepend.input-append input,
+.input-prepend.input-append select,
+.input-prepend.input-append .uneditable-input {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+
+.input-prepend.input-append .add-on:first-child,
+.input-prepend.input-append .btn:first-child {
+  margin-right: -1px;
+  -webkit-border-radius: 3px 0 0 3px;
+  -moz-border-radius: 3px 0 0 3px;
+  border-radius: 3px 0 0 3px;
+}
+
+.input-prepend.input-append .add-on:last-child,
+.input-prepend.input-append .btn:last-child {
+  margin-left: -1px;
+  -webkit-border-radius: 0 3px 3px 0;
+  -moz-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
+}
+
+.msgAdd {
+    font-size: 12px;
+    position: float;
+    color: green;
+}
+.font14{
+  font-size: 14px;
+}
+.tail1 {
+    width: 40px;
+}
+.tail2 {
+    width: 60px;
+}
+.tail3 {
+    width: 120px;
+}
+.tail4 {
+    width: 150px;
+}
+.tail6 {
+    width: 250px;
+}
+.tailDate {
+    width: 100px;
+}
+.tailOuiNon {
+    width: 65px;
+}

@@ -1,0 +1,9 @@
+#graphique .highcharts-container
+{
+	height: 200px !important;
+}
+
+#graphique svg
+{
+	margin-top: -110px;
+}

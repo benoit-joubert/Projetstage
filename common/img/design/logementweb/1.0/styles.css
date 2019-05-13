@@ -1,0 +1,172 @@
+BODY { background-color:#FFFFFF;} 
+
+/*général*/
+.titre {font-family: Verdana;font-size: 13px;color: #3366CC;text-decoration: none;font-weight: bold;}
+.texte {font-family: Arial;font-size: 12px;color: #000000;text-decoration: none;}
+.une {font-family: Arial;font-size: 12px;color: #000000;text-decoration: none;}
+.fd_page { background-color: #E8F1F9;}
+.email {font-family: Arial;font-size: 11px;color: #000000;text-decoration: none;font-weight: bold}
+/* fin général */
+
+/*rechercher*/
+a.normal{font-family: Arial;font-size: 12px;color:  #3366CC;text-decoration: none;}
+a.normal:hover{font-family: Arial;font-size: 12px;color:  #3366CC;text-decoration: underline;}
+.search {font-family: Arial;font-size: 14px;color:#FFFFFF;text-decoration: none;font-weight: bold;}
+/* fin rechercher */
+
+
+/*Formulaire*/
+/*select {font-family: Arial;font-size: 11px;color: #000000;text-decoration: none; background-color:#C4DEF8;border-color:#FFFFFF}
+.input {font-family: Arial;font-size: 11px;color: #000000;text-decoration: none; border-color:#FFFFFF}
+textarea {font-family: Arial;font-size: 11px;color: #000000;text-decoration: none; background-color:#C4DEF8;border-color:#FFFFFF}
+.bgcolor {background-color:#F0F4F8;}
+.obligatoire {font-family: Arial;font-size: 9px;color: #990000;}*/
+/*fin formulaire*/
+
+/*pour menu_rubrique*/
+.trait {background-color:#305CAA;font-family: Arial;font-size: 14px;font-weight: bold;color: #FFFFFF;}
+a.chemin {  font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #3366CC;text-decoration: none;}
+a.chemin:hover{  font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #3366CC;text-decoration: underline;}
+a.ici {  font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #990000;text-decoration: none;}
+a.ici:hover{  font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #3366CC;text-decoration: underline;}
+.chem {  font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #3366CC;text-decoration: none;}
+/*fin rub*/
+
+/*debut plan du site*/
+a.plan_titre { font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #000000;text-decoration: none;font-weight: bold;}
+a.plan_titre:hover { font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #3366CC;text-decoration: underline;font-weight: bold;}
+a.plan_titre_ssrub { font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #3366CC;text-decoration: none;font-weight: bold;}
+a.plan_titre_ssrub:hover { font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #000000;text-decoration: underline;font-weight: bold;}
+a.plan_des { font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #3366CC;text-decoration: none;font-weight: italic;}
+a.plan_des:hover { font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #990000;text-decoration: none;font-weight: italic;}
+a.plan_des_ssrub { font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #000000;text-decoration: none;font-weight: italic;}
+a.plan_des_ssrub:hover { font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #990000;text-decoration: none;font-weight: italic;}
+/*fin plan du site*/
+
+/*mail*/
+.bg_form  { background-color:#E8F1F9;}
+.confirm {font-family: Arial;font-size: 11px;color: #990000;}
+/*fin mail*/
+
+/*haut*/
+.url {background-color:#1A386E;}
+a.add{ font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #FFFFFF;text-decoration: none;}
+a.add:hover{font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #FFFFFF;text-decoration: underline;}
+.moteur {background-color:#3366CC;}
+.blanc {font-family: Arial;font-size: 10px;color: #FFFFFF;text-decoration: none;font-weight: bold;}
+a.haut {font-family: Arial;font-size: 11px;color: #FFFFFF;text-decoration: none;font-weight: bold;}
+a.haut:hover {font-family: Arial;font-size: 11px;color: #909EAF;text-decoration: underline;font-weight: bold;}
+/*fin haut */
+
+/* style article */
+.actu_titre {font-family: Arial;font-size: 14px;color: #3366CC;text-decoration: none;font-weight: bold;}
+.actu_chapo {font-family: Arial;font-size: 10px;color: #000000;text-decoration: none;font-weight: bold;font-weight: Italic;}
+.actu_descr {font-family: Arial;font-size: 10px;color: #000000;text-decoration: none;}
+.actu_texte {font-family: Arial;font-size: 12px;color: #000000;text-decoration: none;}
+.publie {font-family: Arial;font-size: 9px;color:#3366CC;text-decoration: none;font-weight: Italic;}
+/* fin style article */
+
+/* style rubrique */
+.rub_titre {font-family: Arial;font-size: 18px;color: #3366CC;text-decoration: none;font-weight: bold;}
+.rub_descr {font-family: Arial;font-size: 10px;color: #000000;text-decoration: none;}
+.rub_texte {font-family: Arial;font-size: 12px;color: #000000;text-decoration: none;}
+/* fin style rubrique */
+
+/* debut annuaire */
+.annu_t {font-family: Arial;font-size: 10px;color: #000000;text-decoration: none;font-weight: bold;}
+a.annu {font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #3366CC;text-decoration: none;}
+a.annu:hover{font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #3366CC;text-decoration: underline;}
+.titreblanc {font-family: Arial;font-size: 14px;color: #FFFFFF;text-decoration: none;font-weight: bold;}
+.resultat {background-color:#3366CC;font-family: Arial;font-size: 14px;color: #FFFFFF;}
+/* fin annuaire */
+
+/* debut agenda */
+.agenda_t {font-family: Arial;font-size: 10px;color: #3366CC;text-decoration: none;font-weight: bold;}
+.agenda_txt {font-family: Arial;font-size: 9px;color: #000000;text-decoration: none;}
+a.agenda_l {font-family: Arial;font-size: 9px;color: #3366CC;text-decoration: none;}
+a.agenda_l:hover {font-family: Arial;font-size: 9px;color: #000000;text-decoration:underline;cursor:help;}
+a.agenda_ajd {font-family: Arial;font-size: 9px;color: #990000;text-decoration: none;}
+a.agenda_ajd:hover {font-family: Arial;font-size: 9px;color: #000000;text-decoration:underline;cursor:help;}
+a.lienA { font-family: Arial, Helvetica, sans-serif; font-size: 11px; 	font-weight: bold;color: #3366CC; text-decoration: none; }
+a.lienA:hover { font-family: Arial, Helvetica, sans-serif; font-size: 11px;	font-weight: bold; color: #3366CC; text-decoration: underline; }
+/* fin agenda */
+
+/* bloc */
+.bloc {font-family: Arial;font-size: 11px;color: #000000;text-decoration: none;}
+/* fin bloc */
+
+/* chemin de fer */
+a.S_lien:hover { font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: #3366CC; text-decoration: underline; }
+a.S_lien { font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: #000000; text-decoration: none; }
+.chem { font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: #000000; text-decoration: none; }
+/* fin chemin de fer */
+
+.box {	font-family: Arial, Helvetica, sans-serif;	font-size: 9px;	font-weight: bold;	color: #333333;}
+.zoom {	font-family: Arial, Helvetica, sans-serif;	font-size: 11px;color: #FFFFFF;	text-decoration: none;}
+.zoomtitre  { font-family: Arial, Helvetica, sans-serif;	font-size: 11px; font-weight: bold;	color: #FFFFFF;	text-decoration: none;}
+
+a.zoomlink {  font-family: Arial, Helvetica, sans-serif;font-size: 10px; color: #FFFFFF;text-decoration: none;}
+a.zoomlink:hover { font-family: Arial, Helvetica, sans-serif;font-size: 10px; color: #FFFFFFF;text-decoration: underline;}
+
+a.haut {  font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #FFFFFF;text-decoration: none;}
+a.haut:hover { font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #FFFFFFF;text-decoration: underline;}
+
+a.liencoeur {  font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #FFFFFF;text-decoration: none;}
+a.liencoeur:hover { font-family: Arial, Helvetica, sans-serif;font-size: 11px; color: #FFFFFFF;text-decoration: underline;}
+
+.edito {	font-family: Arial, Helvetica, sans-serif;	font-size: 11px;color: #745385;	text-decoration: none;}
+.editotitre  { font-family: Arial, Helvetica, sans-serif;	font-size: 11px; font-weight: bold;	color: #FFFFFF;	text-decoration: none;}
+.citation  { font-family: Arial, Helvetica, sans-serif;	font-size: 12px; font-weight: bold;	color:  #745385;	text-decoration: none;}
+
+a.lien:hover { font-family: Arial, Helvetica, sans-serif; font-size: 11px; color: #333333; text-decoration: underline; }
+a.lien { font-family: Arial, Helvetica, sans-serif; font-size: 11px; color: #333333; text-decoration: none; }
+
+a.S_lien:hover { font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: #3366CC; text-decoration: underline; }
+a.S_lien { font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: #000000; text-decoration: none; }
+
+a.lienB:hover { font-family: Arial, Helvetica, sans-serif; font-size: 11px;	font-weight: bold; color: #3366CC; text-decoration: underline; }
+a.lienB { font-family: Arial, Helvetica, sans-serif; font-size: 11px; 	font-weight: bold;color: #3366CC; text-decoration: none; }
+
+a.menuN1 {	font-family: Verdana;	font-size: 9px;	color: #1D3B5E;	text-decoration: none;}
+a.menuN1:hover {	font-family: Verdana;	font-size: 9px;	color: #0F2033;	text-decoration: underline;}
+
+a.souhait {  font-family: Arial, Helvetica, sans-serif;font-size: 10px; color: #FFFFFF;text-decoration: none; }
+a.souhait:hover { font-family: Arial, Helvetica, sans-serif;font-size: 10px; color: #FFFFFFF;text-decoration: none;}
+
+.copy {	font-family: Arial, Helvetica, sans-serif;	font-size: 9px;	font-weight: bold;	color: #3366CC;}
+a.coplink {	font-family: Arial, Helvetica, sans-serif;	font-size: 9px;	font-weight: bold;	color: #000000;}
+a.coplink:hover {	font-family: Arial, Helvetica, sans-serif;	font-size: 9px;	font-weight: bold;	color: #3366CC; text-decoration:none;}
+
+.credit {	font-family: Arial, Helvetica, sans-serif;	font-size: 9px;color: #FFFFFF;}
+/* Co-marquage */
+.liensutiles { font-family: Verdana, Arial, Helvetica; font-size: 12px; text-decoration: none; color: #000000;}
+.gtitre { font-family: Verdana; font-size: 12px; font-weight: bold;}
+.interrubrique { font-family: Verdana; font-size: 12px; color: #3366CC;}
+.pourallerplusloin {font-family: Verdana, Arial, Helvetica, sans-serif;	font-size: 12px; font-weight: bold; color: #FF9966;}
+.texte1  {font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 10px;color: #000000;text-decoration: none;}
+a.lienR { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; 	font-weight: bold;color: #cc3333; text-decoration: none; }
+a.lienR:hover { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px;	font-weight: bold; color: #cc3333; text-decoration: underline; }
+a.lienT { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: bold;text-decoration: none; color: #000000; }
+a.lienT:hover { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px;	font-weight: bold;text-decoration: underline; color: #3366CC; }
+a.navigationsup  {  font-family: Arial, Helvetica, sans-serif;font-size: 14px; color: #000000;text-decoration: none;}
+a.navigationsup:hover{  font-family: Arial, Helvetica, sans-serif;font-size: 14px; color: #3366CC;text-decoration: underline;}
+.navigation  {  font-family: Arial, Helvetica, sans-serif;font-size: 14px;font-weight: bold; color: #FF9966;}
+a.hautpage {  font-family: Arial, Helvetica, sans-serif;font-size: 12px;font-weight: bold; color: #990000;}
+a.hautpage:hover {  font-family: Arial, Helvetica, sans-serif;font-size: 12px;font-weight: bold; color: #990000;}
+div#tooltipDiv
+{
+	padding: 3px;
+	border: solid 1px #808080;
+	display: none; /*white-space: nowrap;*/
+	/*background: #FFF;*/
+	background: #CFCFCF url("http://design.prod.intranet/design/gradient.php?base=CFCFCF&height=14") repeat-x;
+	/*background: #DFB4F6 url("tooltipdiv.png") repeat-x;*/
+	color: #2B3D2B;
+	font: 9px Verdana,Arial,sans-serif,Geneva;
+	text-align: left;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1000;
+	opacity: .90;
+}

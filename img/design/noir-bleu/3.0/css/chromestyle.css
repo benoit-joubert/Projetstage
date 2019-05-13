@@ -1,0 +1,120 @@
+#chromemenu
+{
+    padding-top: -10px;
+    margin: 0;
+}
+
+.chromestyle{
+width: 100%;
+font-weight: bold;
+}
+
+.chromestyle:after{ /*Add margin between menu and rest of content in Firefox*/
+content: "."; 
+display: block; 
+height: 0; 
+clear: both; 
+visibility: hidden;
+}
+
+.chromestyle
+{
+    padding: 0;
+    margin: 0;
+    border: 0px solid #BBB;
+}
+
+.chromestyle ul
+{
+    border: 0px solid #BBB;
+    width: 100%;
+    /*background: url(chromebg.gif) center center repeat-x;*/ /*THEME CHANGE HERE*/
+    /*padding: 4px 0;*/
+    padding: 0;
+    margin: 0;
+    text-align: center; /*set value to "left", "center", or "right"*/
+}
+
+.chromestyle ul li
+{
+    display: inline;
+    border: 0px solid #BBB;
+}
+
+.chromestyle ul li a
+{
+    color: #494949;
+    margin: 0;
+    text-decoration: none;
+    border-right: 0px solid #DADADA;
+    font:normal 9px Verdana;
+    padding-right: 15px;
+    background: url(../images/j_arrow_down.png) right center no-repeat;
+}
+
+.chromestyle ul li a:hover,
+.chromestyle ul li a.selected
+{
+     /*script dynamically adds a class of "selected" to the current active menu item*/
+    /*background: url(chromebg3-over.gif) center center repeat-x;*/ /*THEME CHANGE HERE*/
+    font-weight: bold;
+}
+
+/* ######### Style for Drop Down Menu ######### */
+
+.dropmenudiv{
+position:absolute;
+top: 0;
+border: 1px solid #BBB; /*THEME CHANGE HERE*/
+border-bottom-width: 0;
+font:normal 9px Verdana;
+line-height:14px;
+z-index:100;
+background-color: white;
+width: 300px;
+visibility: hidden;
+}
+
+
+.dropmenudiv a{
+width: auto;
+display: block;
+text-indent: 3px;
+border-bottom: 1px solid #BBB; /*THEME CHANGE HERE*/
+padding: 2px 0;
+text-decoration: none;
+color: black;
+}
+
+.dropmenudiv a.v0
+{
+    background: #F4F4F4 url("../../../gradient.php?base=F4F4F4&height=14") repeat-x;
+    color: #2F2F2F;
+}
+
+.dropmenudiv a.v1
+{
+    background: #FFFFDD url("../../../gradient.php?base=FFFFDD&height=14") repeat-x;
+    color: #2F2F2F;
+}
+
+* html .dropmenudiv a{ /*IE only hack*/
+width: 100%;
+}
+
+.dropmenudiv a:hover{ /*THEME CHANGE HERE*/
+background-color: #F0F0F0;
+}
+
+.dropmenudiv a.v0:hover
+{
+    background: #CFD2DB url("../../../gradient.php?base=CFD2DB&height=14") repeat-x;
+    color: #2F2F2F;
+}
+
+.dropmenudiv a.v1:hover
+{
+    /*background-color: #FBFAA1;*/
+    background: #FBFAA1 url("../../../gradient.php?base=FBFAA1&height=14") repeat-x;
+    color: #2F2F2F;
+}

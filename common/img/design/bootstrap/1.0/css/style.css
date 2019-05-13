@@ -1,0 +1,51 @@
+.divider-small {
+    height: 1px;
+    margin: 1px 1px;
+    overflow: hidden;
+    background-color: rgb(229, 229, 229);
+    border-bottom: 1px solid rgb(255, 255, 255);
+}
+
+.dataTables_processing
+{
+    background-color: #ffffff;
+	border: 1px solid #cccccc;
+	position: fixed;
+	top: 60%;
+	left: 39%;
+	padding: 10px;
+	font-size: 16px;
+	border-color: rgba(82, 168, 236, 0.8);
+    outline: 0;
+    outline: thin dotted \9;  
+     
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 9px rgba(82, 168, 236, 0.6);
+       -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 9px rgba(82, 168, 236, 0.6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 9px rgba(82, 168, 236, 0.6);
+      
+  
+}
+
+table.table thead .sorting,
+table.table thead .sorting_disabled,
+table.table thead .sorting_asc, 
+table.table thead .sorting_desc
+{
+   /*background-color: red;*/
+   /*background: red url("../../../gradient.php?base=cdcdcd&height=20") repeat-x;*/
+}
+
+table.table thead, table.table tfoot
+{
+
+   background: #cdcdcd url("../../../gradient.php?base=cdcdcd&height=20") repeat-x;
+}
+
+input.text_filter {
+    color: #444444 !important;
+}
+input.search_init {
+    color: #999999 !important;
+    width: 60% !important;
+    font-size: 80% !important;
+}
