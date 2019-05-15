@@ -7,6 +7,7 @@
     require_once($GENERAL_PATH . '/librairie/librairie.php');
 
     if($PROD == 1 && SERVEUR_PROD == 'SARRAKIS2' && (!isset($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] != 'on')){
+        unset($db);
         deconnexionDesBases();
         $url = str_replace('http:','https:',$GENERAL_URL);
         header('Location: ' . $url . '/index.php');
@@ -78,5 +79,6 @@
     require_once(getModuleToLoad($P));
     
     // Déconnexion des bases de données
+    unset($db);
     deconnexionDesBases();
 ?>

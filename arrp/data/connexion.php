@@ -9,15 +9,15 @@
         $dbName	= '';                           // Nom de la base
         $dbType = 'oci8';                       // Type de la base de donnée
     }else{
-        $dbHost	= 'sigtest';
-        $dbUser	= 'equipements';
-        $dbPass	= 'Sig6ForEqu';
+        $dbHost	= 'SIGTEST';
+        $dbUser	= 'GEOPC_RECOMMANDEES';
+        $dbPass	= 'test';
         $dbName	= '';
         $dbType = 'oci8';
     }
     //$dbHost	= 'sigprod';
-	
-	$dsn	= $dbType . '://' . $dbUser . ':' . $dbPass . '@' . $dbHost . '/' . $dbName;
+
+	/*$dsn	= $dbType . '://' . $dbUser . ':' . $dbPass . '@' . $dbHost . '/' . $dbName;
     $db = DB::connect($dsn, array('debug'=>true, 'portability' => MDB2_PORTABILITY_NONE));
 	if (DB::isError($db))
 	{
@@ -27,6 +27,6 @@
     executeReq($db,'alter session set nls_date_format=\'DD/MM/YYYY\'');
     executeReq($db,'alter session set nls_numeric_characters=\'.,\'');
     executeReq($db,'alter session set nls_comp=\'linguistic\'');
-    executeReq($db,'alter session set nls_sort=\'binary_ci\'');
+    executeReq($db,'alter session set nls_sort=\'binary_ci\'');*/
 
 ?>

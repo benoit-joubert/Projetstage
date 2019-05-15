@@ -1,5 +1,8 @@
 {
     "require": {
-        "spipu/html2pdf": "^4.6"
+        "spipu/html2pdf": "^4.6",
+        "ext-oci8": "*",
+        "ext-mbstring": "*",
+        "ext-iconv": "*"
     }
 }
