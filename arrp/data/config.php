@@ -19,7 +19,7 @@
     define('PROJET_NAME', 'arrp'); // Nom du projet
     define('PROJET_AFF_NOM', 'ARRP');
     define('PROJET_AFF_VERSION', '1.0');
-    define('PROJET_TITRE', 'ARRP');
+    define('PROJET_TITRE', 'Recommandés');
     define('PROJET_AFF_CONTACT_EMAIL', ALERT_EMAIL);
     define('PROJET_AFF_CONTACT_TEL', '94.98');
     define('DUREE_TOKEN',21600); // 6heure
@@ -84,7 +84,7 @@
     $PAGES  =   array(
                         '0'     =>array(
                                         'MODULE' => 'accueil',
-                                        'TITRE' => 'Accueil Gestion des ARRP',
+                                        'TITRE' => 'Application des Recommandés',
                                         'DESCRIPTION' => 'Bienvenue sur la gestion des ARRP',
                                         'IMAGE' => 'default.gif',
                                         //'IMAGE_WIDTH' => '150',
