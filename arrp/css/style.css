@@ -1,55 +1,4 @@
 /**********************************************************************************************************************\
-|                                                    Navbar CSS                                                        |
-\**********************************************************************************************************************/
-
-html {
-    padding: 1% 10% 1% 10%;
-    margin: 0;
-    background: darkcyan;
-}
-
-body {
-    padding : 2%;
-    border : 2px solid darkblue!important;
-    background: rgba(245, 245, 245, 0.8)!important;
-}
-
-/**********************************************************************************************************************\
-|                                                    Navbar CSS                                                        |
-\**********************************************************************************************************************/
-.navbar {
-    margin-bottom: 25px;
-}
-
-.navbar ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: black;
-}
-
-.navbar li {
-    float: bottom;
-}
-
-.navbar li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-.navbar li a:hover {
-    background-color: dimgrey;
-}
-
-.active {
-    background-color: darkblue;
-}
-
-/**********************************************************************************************************************\
 |                                                 Completion Form                                                      |
 \**********************************************************************************************************************/
 
@@ -58,6 +7,13 @@ input {
     color: transparent;
     text-shadow: 0 0 0 black;
     width: 50px;
+    margin-top: 15px;
+    height: 30px;
+}
+
+button {
+    margin-top: 15px;
+    height: 35px;
 }
 
 input:focus {
@@ -65,8 +21,12 @@ input:focus {
     border: 2px solid black;
 }
 
-input, select, button {
-    height: 25px;
+select {
+    width: auto;
+}
+select {
+    margin-top: 25px;
+    height: 35px;
 }
 
 input#file_fifth_char, input#file_status, input#search_file_fifth_char, input#search_file_status {
@@ -96,7 +56,7 @@ thead, tbody {
 }
 
 th, td {
-    width: 278px;
+    width: 360px;
 }
 
 /**********************************************************************************************************************\

@@ -24,7 +24,7 @@ $page->afficheHeader();
     <div id="registered_form"></div>
     <div id="search_fields"></div>
     <div id="registered_list"></div>
-
+    <div id="print_buttons"></div>
     <script>
         let nbElements = 0;
         let typeTab = 'ajout';

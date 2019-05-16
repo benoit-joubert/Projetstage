@@ -6,7 +6,6 @@
 
     "use strict";
     $(document).ready(function () {
-        newNavbar();
         newCompletionForm();
         newSearchFields();
         newRegisteredList();
@@ -36,73 +35,6 @@ Date.prototype.toDateInputValue = (function() {
     local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
     return local.toJSON().slice(0,10);
 });
-
-/***********************************************************************************************************************
- *                                          Navbar - Main Function                                                     *
- **********************************************************************************************************************/
-
-function newNavbar() {
-
-    createNavbar();
-    active_navbar();
-    sticky_navbar();
-}
-
-/***********************************************************************************************************************
- *                                     Navbar - Navbar Management Functions                                            *
- **********************************************************************************************************************/
-
-function active_navbar () {
-
-    let loc = window.location.pathname.split('/').pop();
-    $('.navbar').find('a').each(function() {
-        $(this).toggleClass('active', $(this).attr('href') === loc);
-    });
-}
-
-function sticky_navbar () {
-
-    let stickyNavTop = $('.navbar').offset().top;
-    let stickyNav = function(){
-        let scrollTop = $(window).scrollTop();
-        if (scrollTop > stickyNavTop) {
-            $('.navbar').addClass('sticky');
-        } else {
-            $('.navbar').removeClass('sticky');
-        }
-    };
-    stickyNav();
-    $(window).scroll(function() {
-        stickyNav();
-    });
-}
-
-/***********************************************************************************************************************
- *                                            Navbar - Initialization                                                  *
- **********************************************************************************************************************/
-
-function createNavbar() {
-
-    let myNavbar =
-        $('<header/>')
-            .append($('<nav/>')
-                .addClass('navbar')
-                .append($('<ul/>')));
-    let myParams = {
-        'Recommandes'   : 'index.php',
-    };
-
-    for (let paramName in myParams) {
-        myNavbar.find('ul')
-            .append($('<li/>')
-                .append($('<a/>')
-                    .attr({
-                        'href' : myParams[paramName]
-                    })
-                    .html(paramName)));
-    }
-    $('body').prepend(myNavbar);
-}
 
 /***********************************************************************************************************************
  *                                          Completion Form - Main Function                                            *
@@ -318,6 +250,7 @@ function searchPerDate() {
         success: function (data) {
 
             typeTab = 'recherche';
+            clickedFile = undefined;
             registeredList = JSON.parse(data);
             nbElements = 0;
             fillRegisteredList();
@@ -839,7 +772,7 @@ function createPrintButtons() {
     let myButtons =
         $('<div/>')
             .append($('<span/>')
-                .html('Recommande')
+                .html('Recommandé\t')
             )
             .append($('<button/>')
                 .attr({
@@ -848,7 +781,7 @@ function createPrintButtons() {
                 .html('<i class="fas fa-print"></i>')
             )
             .append($('<span/>')
-                .html('Liste des recommandes')
+                .html('Liste des recommandés\t')
             )
             .append($('<button/>')
                 .attr({
@@ -857,6 +790,6 @@ function createPrintButtons() {
                 .html('<i class="fas fa-print"></i>')
             );
 
-    $('body')
+    $('#print_buttons')
         .append(myButtons);
 }
