@@ -638,6 +638,7 @@ function initializeButtonScript(currentButton, type) {
                     success: function (data) {
                         typeTab = 'recherche';
                         registeredList = JSON.parse(data);
+                        clickedFile = undefined;
                         nbElements = 0;
                         fillRegisteredList();
                     }
